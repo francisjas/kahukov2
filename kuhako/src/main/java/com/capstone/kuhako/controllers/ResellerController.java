@@ -15,23 +15,23 @@ public class ResellerController {
     ResellerService resellerService;
 
     // Create User
-    @RequestMapping(value = "/reseller",method = RequestMethod.POST)
+    @RequestMapping(value = "/registerReseller",method = RequestMethod.POST)
     public ResponseEntity<Object> createCollector(@RequestBody Reseller reseller){
         resellerService.createReseller(reseller);
         return new ResponseEntity<>("Reseller Account created Successfully", HttpStatus.CREATED);
     }
     //  Get all User
-    @RequestMapping(value = "/reseller" , method = RequestMethod.GET)
+    @RequestMapping(value = "/getReseller" , method = RequestMethod.GET)
     public ResponseEntity<Object> getUsername() {
         return new ResponseEntity<>(resellerService.getUsername(), HttpStatus.OK);
     }
     // Delete a U
-    @RequestMapping (value = "/reseller/{resellerid}", method = RequestMethod.DELETE)
+    @RequestMapping (value = "/deleteReseller/{resellerid}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteClient(@PathVariable int resellerid){
         return resellerService.deleteReseller(resellerid);
     }
     // Update a post
-    @RequestMapping (value = "/resel/{resellerid}", method = RequestMethod.PUT)
+    @RequestMapping (value = "/updateReseller/{resellerid}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateCollector(@PathVariable int resellerid, @RequestBody Reseller reseller){
         return resellerService.updateReseller(resellerid,reseller);
     }

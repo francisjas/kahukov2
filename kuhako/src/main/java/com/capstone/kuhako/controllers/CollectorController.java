@@ -15,23 +15,23 @@ public class CollectorController {
     CollectorService collectorService;
 
     // Create User
-    @RequestMapping(value = "/collector",method = RequestMethod.POST)
+    @RequestMapping(value = "/createCollector",method = RequestMethod.POST)
     public ResponseEntity<Object> createCollector(@RequestBody Collector collector){
         collectorService.createCollector(collector);
         return new ResponseEntity<>("Collector Account created Successfully", HttpStatus.CREATED);
     }
     //  Get all User
-    @RequestMapping(value = "/collector" , method = RequestMethod.GET)
+    @RequestMapping(value = "/getCollector" , method = RequestMethod.GET)
     public ResponseEntity<Object> getUsername() {
         return new ResponseEntity<>(collectorService.getUsername(), HttpStatus.OK);
     }
     // Delete a U
-    @RequestMapping (value = "/collector/{collectorid}", method = RequestMethod.DELETE)
+    @RequestMapping (value = "/deleteCollector/{collectorid}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteClient(@PathVariable int collectorid){
         return collectorService.deleteCollector(collectorid);
     }
     // Update a post
-    @RequestMapping (value = "/collector/{collectorid}", method = RequestMethod.PUT)
+    @RequestMapping (value = "/updateCollector/{collectorid}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateCollector(@PathVariable int collectorid, @RequestBody Collector collector){
         return collectorService.updateCollector(collectorid,collector);
     }

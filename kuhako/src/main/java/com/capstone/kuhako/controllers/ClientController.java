@@ -15,23 +15,23 @@ public class ClientController {
     ClientService clientService;
 
     // Create User
-    @RequestMapping(value = "/client",method = RequestMethod.POST)
+    @RequestMapping(value = "/createClient",method = RequestMethod.POST)
     public ResponseEntity<Object> createClient(@RequestBody Client client){
         clientService.createClient(client);
         return new ResponseEntity<>("Client Account created Successfully", HttpStatus.CREATED);
     }
     //  Get all User
-    @RequestMapping(value = "/client" , method = RequestMethod.GET)
+    @RequestMapping(value = "/getClient" , method = RequestMethod.GET)
     public ResponseEntity<Object> getUsername() {
         return new ResponseEntity<>(clientService.getUsername(), HttpStatus.OK);
     }
     // Delete a U
-    @RequestMapping (value = "/client/{clientid}", method = RequestMethod.DELETE)
+    @RequestMapping (value = "/deleteClient/{clientid}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteClient(@PathVariable int clientid){
         return clientService.deleteClient(clientid);
     }
     // Update a post
-    @RequestMapping (value = "/client/{clientid}", method = RequestMethod.PUT)
+    @RequestMapping (value = "/updateClient/{clientid}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateClient(@PathVariable int clientid, @RequestBody Client client){
         return clientService.updateClient(clientid,client);
     }
