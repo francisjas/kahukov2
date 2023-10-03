@@ -11,15 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.logging.LogManager;
 
 @Service
 public class ResellerServiceImpl implements ResellerService {
     @Autowired
     private ResellerRepository resellerRepository;
-
     @Autowired
     private CollectorRepository collectorRepository;
     @Autowired
@@ -33,10 +30,6 @@ public class ResellerServiceImpl implements ResellerService {
     // Get all reseller
     public Iterable<Reseller> getUsername(){
         return resellerRepository.findAll();
-    }
-
-    public List<Collector> getCollectorIdByReseller(Long resellerId ){
-    return collectorRepository.findCollectorsWithContractsByResellerId(resellerId);
     }
 
     // Delete reseller

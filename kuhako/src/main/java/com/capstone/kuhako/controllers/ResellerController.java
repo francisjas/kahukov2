@@ -1,6 +1,5 @@
 package com.capstone.kuhako.controllers;
 
-import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.services.ResellerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,6 @@ public class ResellerController {
     @RequestMapping(value = "/reseller" , method = RequestMethod.GET)
     public ResponseEntity<Object> getUsername() {
         return new ResponseEntity<>(resellerService.getUsername(), HttpStatus.OK);
-    }
-    @RequestMapping(value="/myCollectors/{resellerId}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getCollectorIdByReseller(@PathVariable Long resellerId) {
-        return new ResponseEntity<>(resellerService.getCollectorIdByReseller(resellerId), HttpStatus.OK);
     }
     // Delete a U
     @RequestMapping (value = "/reseller/{resellerId}", method = RequestMethod.DELETE)
