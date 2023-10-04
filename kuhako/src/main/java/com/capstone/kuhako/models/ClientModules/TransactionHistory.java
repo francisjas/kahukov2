@@ -39,13 +39,10 @@ public class TransactionHistory {
     @Column
     private String specifications;
 
-    @OneToMany(mappedBy = "transactionHistory", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<PayDues> payDues;
     public TransactionHistory() {
     }
 
-    public TransactionHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, String paymentType, String specifications, Set<PayDues> payDues) {
+    public TransactionHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, String paymentType, String specifications) {
         this.reseller = reseller;
         this.client = client;
         this.collector = collector;
@@ -53,16 +50,8 @@ public class TransactionHistory {
         this.itemPrice = itemPrice;
         this.paymentType = paymentType;
         this.specifications = specifications;
-        this.payDues = payDues;
 
-    }
 
-    public Set<PayDues> getPayDues() {
-        return payDues;
-    }
-
-    public void setPayDues(Set<PayDues> payDues) {
-        this.payDues = payDues;
     }
 
     public Reseller getReseller() {

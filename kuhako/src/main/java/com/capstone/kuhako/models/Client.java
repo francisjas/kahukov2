@@ -1,5 +1,6 @@
 package com.capstone.kuhako.models;
 
+import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.JoinModule.Contracts;
 import com.capstone.kuhako.models.JoinModule.ContractsHistory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,12 +48,16 @@ public class Client {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @JsonIgnore
+    private Set<PayDues> payDues;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<ContractsHistory> contractsHistories;
 
     public Client() {
     }
 
-    public Client(Reseller reseller, Collector collector, String username, String password, String fullName, String address, String email, Contracts contract, Set<ContractsHistory> contractsHistories) {
+    public Client(Reseller reseller, Collector collector, String username, String password, String fullName, String address, String email, Contracts contract, Set<PayDues> payDues, Set<ContractsHistory> contractsHistories) {
         this.reseller = reseller;
         this.collector = collector;
         this.username = username;
@@ -61,6 +66,7 @@ public class Client {
         this.address = address;
         this.email = email;
         this.contract = contract;
+        this.payDues = payDues;
         this.contractsHistories = contractsHistories;
     }
 
@@ -151,5 +157,13 @@ public class Client {
 
     public void setContractsHistories(Set<ContractsHistory> contractsHistories) {
         this.contractsHistories = contractsHistories;
+    }
+
+    public Set<PayDues> getPayDues() {
+        return payDues;
+    }
+
+    public void setPayDues(Set<PayDues> payDues) {
+        this.payDues = payDues;
     }
 }

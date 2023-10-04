@@ -14,7 +14,7 @@ public class PayDues {
     @GeneratedValue
     private Long payDues_id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="client", nullable = false)
     private Client client;
 
@@ -26,12 +26,9 @@ public class PayDues {
     @JoinColumn(name="contractsHistory_id")
     private ContractsHistory contractsHistory;
 
-    @ManyToOne
-    @JoinColumn(name="transactionHistory_id")
-    private TransactionHistory transactionHistory;
 
     @Column
-    private double itemPrice;
+    private double amountPayment;
 
     @Column
     private String referenceNumber;
@@ -49,25 +46,17 @@ public class PayDues {
     public PayDues() {
     }
 
-    public PayDues(Client client, Contracts contracts, ContractsHistory contractsHistory, TransactionHistory transactionHistory, double itemPrice, String referenceNumber, String paymentType, byte[] transactionProof, String transactionProofContentType) {
+    public PayDues(Client client, Contracts contracts, ContractsHistory contractsHistory, double amountPayment, String referenceNumber, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.client = client;
         this.contracts = contracts;
         this.contractsHistory = contractsHistory;
-        this.transactionHistory = transactionHistory;
-        this.itemPrice = itemPrice;
+        this.amountPayment = amountPayment;
         this.referenceNumber = referenceNumber;
         this.paymentType = paymentType;
         this.transactionProof = transactionProof;
         this.transactionProofContentType = transactionProofContentType;
     }
 
-    public TransactionHistory getTransactionHistory() {
-        return transactionHistory;
-    }
-
-    public void setTransactionHistory(TransactionHistory transactionHistory) {
-        this.transactionHistory = transactionHistory;
-    }
 
     public Client getClient() {
         return client;
@@ -85,20 +74,12 @@ public class PayDues {
         this.contracts = contracts;
     }
 
-    public ContractsHistory getContractsHistory() {
-        return contractsHistory;
+    public double getAmountPayment() {
+        return amountPayment;
     }
 
-    public void setContractsHistory(ContractsHistory contractsHistory) {
-        this.contractsHistory = contractsHistory;
-    }
-
-    public double getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setAmountPayment(double amountPayment) {
+        this.amountPayment = amountPayment;
     }
 
     public String getReferenceNumber() {

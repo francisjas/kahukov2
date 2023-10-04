@@ -51,7 +51,7 @@ public class PayDuesServiceImpl implements PayDuesService{
             Collector collector = collectorRepository.findById(contracts.getCollector().getCollector_id()).get();
             Reseller reseller = resellerRepository.findById(contracts.getReseller().getReseller_id()).get();
             payDues.setClient(client);
-            contracts.setDebtRemaining(contracts.getDebtRemaining() - payDues.getItemPrice());
+            contracts.setDebtRemaining(contracts.getDebtRemaining() - payDues.getAmountPayment());
             contractsRepository.save(contracts);
 
             if (!file.isEmpty()) {
@@ -65,16 +65,6 @@ public class PayDuesServiceImpl implements PayDuesService{
             }
             payDuesRepository.save(payDues);
             if (contracts.getDebtRemaining() == 0) {
-                TransactionHistory transactionHistory = new TransactionHistory(
-                        contracts.getReseller(),
-                        contracts.getClient(),
-                        contracts.getCollector(),
-                        contracts.getItemName(),
-                        contracts.getItemPrice(),
-                        contracts.getPaymentType(),
-                        contracts.getSpecifications(),
-                        new HashSet<>(contracts.getPayDues())
-                );
                 ContractsHistory contractsHistory = new ContractsHistory(
                         contracts.getReseller(),
                         contracts.getClient(),
@@ -85,21 +75,18 @@ public class PayDuesServiceImpl implements PayDuesService{
                         contracts.getSpecifications(),
                         new HashSet<>(contracts.getTransactions())
                 );
-
-            client.setReseller(null);
-            client.setCollector(null);
-            reseller.getClients().remove(client);
-            collector.getClients().remove(client);
-            client.setContract(null);
-            reseller.getContracts().remove(contracts);
-            collector.getContracts().remove(contracts);
-
-            List<PayDues> payDuesList = payDuesRepository.findByContracts(contracts);
-            for (PayDues payDue : payDuesList) {
-                payDue.setContracts(null);
-                payDuesRepository.save(payDue);
-            }
-                transactionHistoryRepository.save(transactionHistory);
+                client.setReseller(null);
+                client.setCollector(null);
+                reseller.getClients().remove(client);
+                collector.getClients().remove(client);
+                client.setContract(null);
+                reseller.getContracts().remove(contracts);
+                collector.getContracts().remove(contracts);
+                List<PayDues> payDuesList = payDuesRepository.findByContracts(contracts);
+                for (PayDues payDue : payDuesList) {
+                    payDue.setContracts(null);
+                    payDuesRepository.save(payDue);
+                }
                 contractsHistoryRepository.save(contractsHistory);
                 contractsRepository.delete(contracts);
             }
@@ -129,7 +116,7 @@ public class PayDuesServiceImpl implements PayDuesService{
     public ResponseEntity updatePayDues(Long clientId,Long id, PayDues payDues){
         PayDues payDuesForUpdate = payDuesRepository.findById(id).orElse(null);
         if (payDuesForUpdate != null && payDuesForUpdate.getClient().getClient_id().equals(clientId)) {
-            payDuesForUpdate.setItemPrice(payDues.getItemPrice());
+            payDuesForUpdate.setAmountPayment(payDues.getAmountPayment());
             payDuesForUpdate.setReferenceNumber(payDues.getReferenceNumber());
             payDuesForUpdate.setPaymentType(payDues.getPaymentType());
             payDuesForUpdate.setTransactionProof(payDues.getTransactionProof());

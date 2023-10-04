@@ -29,15 +29,15 @@ public class PayDuesController {
     private ClientRepository clientRepository;
 
     @RequestMapping(value="/payDues/{clientId}", method = RequestMethod.POST)
-    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("itemPrice") double itemPrice,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("file") MultipartFile file) {
         Client client = clientRepository.findById(clientId).orElse(null);
         Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (client != null && contracts != null) {
             if(contracts.getClient().equals(client)){
-                if(contracts.getDebtRemaining() >= itemPrice){
+                if(contracts.getDebtRemaining() >= amountPayment){
                     PayDues payDues = new PayDues();
                     payDues.setContracts(contracts);
-                    payDues.setItemPrice(itemPrice);
+                    payDues.setAmountPayment(amountPayment);
                     payDues.setReferenceNumber(referenceNumber);
                     payDues.setPaymentType(paymentType);
                     payDuesService.createPayDues(clientId,payDues,file);
