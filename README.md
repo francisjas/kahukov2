@@ -16,16 +16,16 @@ APPLICATION FLOW (Kuhako)
       - One Contract per Client only.
       
 3.a. PAYMENT THROUGH CLIENT (payDues):
-      - Client will create payDue and set it to a specific contract.
-      - Every paydues amountpayment will subtract from contracts debtRemaining.
-      - Once debtRemaining turn to 0, contracts will be deleted and details moved to ContractHistory.
-      - Client Can see the transaction (Has Problems, Working on it).
+        - Client will create payDue and set it to a specific contract.
+        - Every paydues amountpayment will subtract from contracts debtRemaining.
+        - Once debtRemaining turn to 0, contracts will be deleted and details moved to ContractHistory.
+        - Client Can see the transaction (Has Problems, Working on it).
 
 3.b PAYMENT THROUGH COLLECTOR (transaction):
-      - Collector will create transaction and set it to a specific contract and client.
-      - Every transaction amountpayment will subtract from contracts debtRemaining.
-      - Once debtRemaining turn to 0, contracts will be deleted and details moved to ContractHistory.
-      - Collectors Can see the transaction.
+        - Collector will create transaction and set it to a specific contract and client.
+        - Every transaction amountpayment will subtract from contracts debtRemaining.
+        - Once debtRemaining turn to 0, contracts will be deleted and details moved to ContractHistory.
+        - Collectors Can see the transaction.
       
 4. CONTRACT HISTORY:
       - Contracts that are completed are automatically moved here.
