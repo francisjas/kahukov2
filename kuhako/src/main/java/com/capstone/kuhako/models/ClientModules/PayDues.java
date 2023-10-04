@@ -7,6 +7,7 @@ import com.capstone.kuhako.models.JoinModule.ContractsHistory;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "payDues")
 public class PayDues {

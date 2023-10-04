@@ -38,7 +38,6 @@ public class PayDuesController {
             if(contracts.getClient().equals(client)){
                 if(contracts.getDebtRemaining() >= amountPayment){
                     byte[] data = Base64.getDecoder().decode(base64Data);
-
                     PayDues payDues = new PayDues();
                     payDues.setContracts(contracts);
                     payDues.setAmountPayment(amountPayment);
@@ -46,7 +45,6 @@ public class PayDuesController {
                     payDues.setPaymentType(paymentType);
                     payDues.setTransactionProof(data);
                     payDues.setTransactionProofContentType(contentType);
-
                     payDuesService.createPayDues(clientId,payDues);
                     return new ResponseEntity<>(" Pay Dues created successfully", HttpStatus.CREATED);
                 }else{
