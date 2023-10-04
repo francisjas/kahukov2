@@ -29,8 +29,13 @@ public class ContractsController {
         Client client = clientRepository.findById(contracts.getClient().getClient_id()).orElse(null);
         if (reseller != null) {
             if (client != null) {
-                contractsService.createContract(resellerId, contracts);
-                return new ResponseEntity<>("Contracts created successfully", HttpStatus.CREATED);
+                if(client.getContract() == null ){
+                    contractsService.createContract(resellerId, contracts);
+                    return new ResponseEntity<>("Contracts created successfully", HttpStatus.CREATED);
+                }else{
+                    return new ResponseEntity<>("Invalid Contract: Client can only have 1 active contract", HttpStatus.NOT_FOUND);
+                }
+
             } else {
                 return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
             }
