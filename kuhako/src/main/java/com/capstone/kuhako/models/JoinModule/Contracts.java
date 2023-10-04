@@ -45,12 +45,11 @@ public class Contracts {
 
     @OneToMany(mappedBy = "contracts")
     @JsonIgnore
-    private Set<PayDues> PayDues;
+    private Set<PayDues> payDues;
 
     public Contracts() {
     }
-
-    public Contracts(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, double debtRemaining, String paymentType, String specifications, Set<Transactions> transactions, Set<com.capstone.kuhako.models.ClientModules.PayDues> payDues) {
+    public Contracts(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, double debtRemaining, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
         this.reseller = reseller;
         this.client = client;
         this.collector = collector;
@@ -60,7 +59,7 @@ public class Contracts {
         this.paymentType = paymentType;
         this.specifications = specifications;
         this.transactions = transactions;
-        PayDues = payDues;
+        this.payDues = payDues;
     }
 
     public Long getContracts_id() {
@@ -143,11 +142,11 @@ public class Contracts {
         this.transactions = transactions;
     }
 
-    public Set<com.capstone.kuhako.models.ClientModules.PayDues> getPayDues() {
-        return PayDues;
+    public Set<PayDues> getPayDues() {
+        return payDues;
     }
 
-    public void setPayDues(Set<com.capstone.kuhako.models.ClientModules.PayDues> payDues) {
-        PayDues = payDues;
+    public void setPayDues(Set<PayDues> payDues) {
+        this.payDues = payDues;
     }
 }

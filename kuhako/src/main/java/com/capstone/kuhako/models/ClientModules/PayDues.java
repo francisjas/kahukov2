@@ -1,7 +1,6 @@
 package com.capstone.kuhako.models.ClientModules;
 
 import com.capstone.kuhako.models.Client;
-import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.JoinModule.Contracts;
 import com.capstone.kuhako.models.JoinModule.ContractsHistory;
 
@@ -16,7 +15,7 @@ public class PayDues {
     private Long payDues_id;
 
     @ManyToOne
-    @JoinColumn(name="client", nullable = false)
+    @JoinColumn(name="client_id", nullable = false)
     private Client client;
 
     @ManyToOne
@@ -46,7 +45,6 @@ public class PayDues {
 
     public PayDues() {
     }
-
     public PayDues(Client client, Contracts contracts, ContractsHistory contractsHistory, double amountPayment, String referenceNumber, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.client = client;
         this.contracts = contracts;
@@ -58,6 +56,13 @@ public class PayDues {
         this.transactionProofContentType = transactionProofContentType;
     }
 
+    public Long getPayDues_id() {
+        return payDues_id;
+    }
+
+//    public void setPayDues_id(Long payDues_id) {
+//        this.payDues_id = payDues_id;
+//    }
 
     public Client getClient() {
         return client;
@@ -73,6 +78,14 @@ public class PayDues {
 
     public void setContracts(Contracts contracts) {
         this.contracts = contracts;
+    }
+
+    public ContractsHistory getContractsHistory() {
+        return contractsHistory;
+    }
+
+    public void setContractsHistory(ContractsHistory contractsHistory) {
+        this.contractsHistory = contractsHistory;
     }
 
     public double getAmountPayment() {

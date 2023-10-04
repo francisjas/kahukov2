@@ -31,7 +31,7 @@ public class PayDuesController {
     private ClientRepository clientRepository;
 
     @RequestMapping(value="/payDues/{clientId}", method = RequestMethod.POST)
-    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("base64Data")String base64Data,@RequestParam("contentType")String contentType) {
+    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("base64Data")String base64Data, @RequestParam("contentType")String contentType) {
         Client client = clientRepository.findById(clientId).orElse(null);
         Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (client != null && contracts != null) {
@@ -46,15 +46,15 @@ public class PayDuesController {
                     payDues.setTransactionProof(data);
                     payDues.setTransactionProofContentType(contentType);
                     payDuesService.createPayDues(clientId,payDues);
-                    return new ResponseEntity<>(" Pay Dues created successfully", HttpStatus.CREATED);
+                    return new ResponseEntity<>("Pay Dues created successfully", HttpStatus.CREATED);
                 }else{
                     return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
                 }
             }else {
-                return new ResponseEntity<>("Collector is not in charge on this contract", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Client is not in charge on this contract", HttpStatus.NOT_FOUND);
             }
         } else {
-            return new ResponseEntity<>("Pay Dues Payment Records does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Client/Contract does not exist", HttpStatus.NOT_FOUND);
         }
     }
 

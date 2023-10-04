@@ -15,6 +15,7 @@ import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
 import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsHistoryRepository;
 import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
+import com.capstone.kuhako.repositories.JoinModuleRepository.TransactionsRepository;
 import com.capstone.kuhako.repositories.ResellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,8 @@ public class PayDuesServiceImpl implements PayDuesService{
     private ResellerRepository resellerRepository;
     @Autowired
     private ContractsHistoryRepository contractsHistoryRepository;
+    @Autowired
+    private TransactionsRepository transactionsRepository;
 
     @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
@@ -73,8 +76,10 @@ public class PayDuesServiceImpl implements PayDuesService{
                         contracts.getItemPrice(),
                         contracts.getPaymentType(),
                         contracts.getSpecifications(),
-                        new HashSet<>(contracts.getTransactions())
+                        new HashSet<>(contracts.getTransactions()),
+                        new HashSet<>(contracts.getPayDues())
                 );
+                contractsHistoryRepository.save(contractsHistory);
                 client.setReseller(null);
                 client.setCollector(null);
                 reseller.getClients().remove(client);
@@ -84,10 +89,16 @@ public class PayDuesServiceImpl implements PayDuesService{
                 collector.getContracts().remove(contracts);
                 List<PayDues> payDuesList = payDuesRepository.findByContracts(contracts);
                 for (PayDues payDue : payDuesList) {
+                    payDue.setContractsHistory(contractsHistory);
                     payDue.setContracts(null);
                     payDuesRepository.save(payDue);
                 }
-                contractsHistoryRepository.save(contractsHistory);
+                List<Transactions> transactionsList = transactionsRepository.findByContracts(contracts);
+                for (Transactions transaction : transactionsList) {
+                    transaction.setContractsHistory(contractsHistory);
+                    transaction.setContracts(null);
+                    transactionsRepository.save(transaction);
+                }
                 contractsRepository.delete(contracts);
             }
        /* }catch (IOException e){
@@ -95,6 +106,7 @@ public class PayDuesServiceImpl implements PayDuesService{
             e.printStackTrace();
         }*/
     }
+
     public Iterable<PayDues> getPayDues(){
         return payDuesRepository.findAll();
     }

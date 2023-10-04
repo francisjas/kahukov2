@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface TransactionsService {
-    void createTransactions(Long collectorId, Transactions transactions, MultipartFile file);
+    void createTransactions(Long collectorId, Transactions transactions);
 
     Iterable<Transactions> getTransactions();
 

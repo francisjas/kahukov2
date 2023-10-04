@@ -1,11 +1,13 @@
 package com.capstone.kuhako.services.JoinModuleServices;
 
 import com.capstone.kuhako.models.Client;
+import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.JoinModule.Contracts;
 import com.capstone.kuhako.models.JoinModule.ContractsHistory;
 import com.capstone.kuhako.models.JoinModule.Transactions;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
+import com.capstone.kuhako.repositories.ClientModuleRepository.PayDuesRepository;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsHistoryRepository;
 import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
@@ -36,26 +38,30 @@ public class TransactionsServiceImpl implements TransactionsService {
     private ResellerRepository resellerRepository;
     @Autowired
     private ContractsHistoryRepository contractsHistoryRepository;
+    @Autowired
+    private PayDuesRepository payDuesRepository;
 
     // Create Transactions
-    public void createTransactions(Long collectorId,Transactions transactions, MultipartFile file){
-        try {
+    public void createTransactions(Long collectorId,Transactions transactions){
+//        try {
             Collector collector = collectorRepository.findById(collectorId).get();
             Contracts contracts = contractsRepository.findById(transactions.getContracts().getContracts_id()).get();
             Client client = clientRepository.findById(contracts.getClient().getClient_id()).get();
             Reseller reseller = resellerRepository.findById(contracts.getReseller().getReseller_id()).get();
             transactions.setCollector(collector);
+            transactions.setContractsHistory(null);
+
             contracts.setDebtRemaining(contracts.getDebtRemaining() - transactions.getAmountPayments());
             contractsRepository.save(contracts);
-            if (!file.isEmpty()) {
-                // Get the bytes and content type of the uploaded file
-                byte[] fileData = file.getBytes();
-                String contentType = file.getContentType();
-
-                // Set the transaction proof and content type
-                transactions.setTransactionProof(fileData);
-                transactions.setTransactionProofContentType(contentType);
-            }
+//            if (!file.isEmpty()) {
+//                // Get the bytes and content type of the uploaded file
+//                byte[] fileData = file.getBytes();
+//                String contentType = file.getContentType();
+//
+//                // Set the transaction proof and content type
+//                transactions.setTransactionProof(fileData);
+//                transactions.setTransactionProofContentType(contentType);
+//            }
             transactionsRepository.save(transactions);
             if (contracts.getDebtRemaining() == 0) {
                 ContractsHistory contractsHistory = new ContractsHistory(
@@ -66,8 +72,10 @@ public class TransactionsServiceImpl implements TransactionsService {
                         contracts.getItemPrice(),
                         contracts.getPaymentType(),
                         contracts.getSpecifications(),
-                        new HashSet<>(contracts.getTransactions())
+                        new HashSet<>(contracts.getTransactions()),
+                        new HashSet<>(contracts.getPayDues())
                 );
+                contractsHistoryRepository.save(contractsHistory);
                 client.setReseller(null);
                 client.setCollector(null);
                 reseller.getClients().remove(client);
@@ -77,17 +85,23 @@ public class TransactionsServiceImpl implements TransactionsService {
                 collector.getContracts().remove(contracts);
                 List<Transactions> transactionsList = transactionsRepository.findByContracts(contracts);
                 for (Transactions transaction : transactionsList) {
+                    transaction.setContractsHistory(contractsHistory);
                     transaction.setContracts(null);
                     transactionsRepository.save(transaction);
                 }
-                contractsHistoryRepository.save(contractsHistory);
+                List<PayDues> payDuesList = payDuesRepository.findByContracts(contracts);
+                for (PayDues payDue : payDuesList) {
+                    payDue.setContractsHistory(contractsHistory);
+                    payDue.setContracts(null);
+                    payDuesRepository.save(payDue);
+                }
                 // Remove the contract and its transactions
                 contractsRepository.delete(contracts);
             }
-        } catch (IOException e) {
-            // Handle any IO exceptions if they occur during file processing
-            e.printStackTrace(); // You can log the error or handle it as needed
-        }
+//        } catch (IOException e) {
+//            // Handle any IO exceptions if they occur during file processing
+//            e.printStackTrace(); // You can log the error or handle it as needed
+//        }
     }
 
 

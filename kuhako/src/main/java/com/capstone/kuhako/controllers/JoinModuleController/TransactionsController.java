@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/CollectionPage")
@@ -24,17 +26,20 @@ public class TransactionsController {
     private ContractsRepository contractsRepository;
 
     @PostMapping("/transactions/{collectorId}")
-    public ResponseEntity<Object> createTransactions(@PathVariable Long collectorId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment, @RequestParam("paymentType") String paymentType, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Object> createTransactions(@PathVariable Long collectorId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment, @RequestParam("paymentType") String paymentType, @RequestParam("base64Data")String base64Data, @RequestParam("contentType")String contentType) {
         Collector collector = collectorRepository.findById(collectorId).orElse(null);
         Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (collector != null && contracts != null) {
             if (contracts.getCollector().equals(collector)){
                 if (contracts.getDebtRemaining() >= amountPayment){
+                    byte[] data = Base64.getDecoder().decode(base64Data);
                     Transactions transactions = new Transactions();
                     transactions.setContracts(contracts);
                     transactions.setAmountPayments(amountPayment);
                     transactions.setPaymentType(paymentType);
-                    transactionsService.createTransactions(collectorId, transactions, file);
+                    transactions.setTransactionProof(data);
+                    transactions.setTransactionProofContentType(contentType);
+                    transactionsService.createTransactions(collectorId, transactions);
                     return new ResponseEntity<>("Transactions created successfully", HttpStatus.CREATED);
                 } else {
                     return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);

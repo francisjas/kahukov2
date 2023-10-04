@@ -1,5 +1,7 @@
 package com.capstone.kuhako.models.JoinModule;
+
 import com.capstone.kuhako.models.Client;
+import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,10 +42,13 @@ public class ContractsHistory {
     @JsonIgnore
     private Set<Transactions> transactions;
 
+    @OneToMany(mappedBy = "contractsHistory")
+    @JsonIgnore
+    private Set<PayDues> payDues;
+
     public ContractsHistory() {
     }
-
-    public ContractsHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice,  String paymentType, String specifications,  Set<Transactions> transactions) {
+    public ContractsHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
         this.reseller = reseller;
         this.client = client;
         this.collector = collector;
@@ -52,15 +57,8 @@ public class ContractsHistory {
         this.paymentType = paymentType;
         this.specifications = specifications;
         this.transactions = transactions;
+        this.payDues = payDues;
     }
-
-    public Long getContractsHistory_id() {
-        return contractsHistory_id;
-    }
-
-    /*public void setContracts_id(Long contracts_id) {
-        this.contracts_id = contracts_id;
-    }*/
 
     public Reseller getReseller() {
         return reseller;
@@ -102,8 +100,6 @@ public class ContractsHistory {
         this.itemPrice = itemPrice;
     }
 
-
-
     public String getPaymentType() {
         return paymentType;
     }
@@ -119,11 +115,20 @@ public class ContractsHistory {
     public void setSpecifications(String specifications) {
         this.specifications = specifications;
     }
+
     public Set<Transactions> getTransactions() {
         return transactions;
     }
 
     public void setTransactions(Set<Transactions> transactions) {
         this.transactions = transactions;
+    }
+
+    public Set<PayDues> getPayDues() {
+        return payDues;
+    }
+
+    public void setPayDues(Set<PayDues> payDues) {
+        this.payDues = payDues;
     }
 }
