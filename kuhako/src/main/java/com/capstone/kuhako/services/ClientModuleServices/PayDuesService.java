@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface PayDuesService {
-    void createPayDues(Long clientId, PayDues payDues, MultipartFile file);
+    void createPayDues(Long clientId, PayDues payDues);
 
     Iterable<PayDues> getPayDues();
 

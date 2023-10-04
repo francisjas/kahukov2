@@ -44,8 +44,8 @@ public class PayDuesServiceImpl implements PayDuesService{
     @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
     
-    public void createPayDues(Long clientId, PayDues payDues, MultipartFile file){
-        try {
+    public void createPayDues(Long clientId, PayDues payDues){
+        /*try {*/
             Client client = clientRepository.findById(clientId).get();
             Contracts contracts = contractsRepository.findById(payDues.getContracts().getContracts_id()).get();
             Collector collector = collectorRepository.findById(contracts.getCollector().getCollector_id()).get();
@@ -54,7 +54,7 @@ public class PayDuesServiceImpl implements PayDuesService{
             contracts.setDebtRemaining(contracts.getDebtRemaining() - payDues.getAmountPayment());
             contractsRepository.save(contracts);
 
-            if (!file.isEmpty()) {
+        /*    if (!file.isEmpty()) {
                 // Get the bytes and content type of the uploaded file
                 byte[] fileData = file.getBytes();
                 String contentType = file.getContentType();
@@ -62,7 +62,7 @@ public class PayDuesServiceImpl implements PayDuesService{
                 // Set the transaction proof and content type
                 payDues.setTransactionProof(fileData);
                 payDues.setTransactionProofContentType(contentType);
-            }
+            }*/
             payDuesRepository.save(payDues);
             if (contracts.getDebtRemaining() == 0) {
                 ContractsHistory contractsHistory = new ContractsHistory(
@@ -90,10 +90,10 @@ public class PayDuesServiceImpl implements PayDuesService{
                 contractsHistoryRepository.save(contractsHistory);
                 contractsRepository.delete(contracts);
             }
-        }catch (IOException e){
+       /* }catch (IOException e){
 
             e.printStackTrace();
-        }
+        }*/
     }
     public Iterable<PayDues> getPayDues(){
         return payDuesRepository.findAll();

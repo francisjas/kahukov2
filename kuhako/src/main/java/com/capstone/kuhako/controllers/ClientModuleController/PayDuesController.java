@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
+
 
 @RestController
 @CrossOrigin
@@ -29,18 +31,23 @@ public class PayDuesController {
     private ClientRepository clientRepository;
 
     @RequestMapping(value="/payDues/{clientId}", method = RequestMethod.POST)
-    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("base64Data")String base64Data,@RequestParam("contentType")String contentType) {
         Client client = clientRepository.findById(clientId).orElse(null);
         Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (client != null && contracts != null) {
             if(contracts.getClient().equals(client)){
                 if(contracts.getDebtRemaining() >= amountPayment){
+                    byte[] data = Base64.getDecoder().decode(base64Data);
+
                     PayDues payDues = new PayDues();
                     payDues.setContracts(contracts);
                     payDues.setAmountPayment(amountPayment);
                     payDues.setReferenceNumber(referenceNumber);
                     payDues.setPaymentType(paymentType);
-                    payDuesService.createPayDues(clientId,payDues,file);
+                    payDues.setTransactionProof(data);
+                    payDues.setTransactionProofContentType(contentType);
+
+                    payDuesService.createPayDues(clientId,payDues);
                     return new ResponseEntity<>(" Pay Dues created successfully", HttpStatus.CREATED);
                 }else{
                     return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
