@@ -3,26 +3,109 @@ package com.capstone.kuhako.services.ClientModuleServices;
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.DuePayments;
 import com.capstone.kuhako.models.ClientModules.PayDues;
+import com.capstone.kuhako.models.ClientModules.TransactionHistory;
+import com.capstone.kuhako.models.Collector;
+import com.capstone.kuhako.models.JoinModule.Contracts;
+import com.capstone.kuhako.models.JoinModule.ContractsHistory;
+import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.repositories.ClientModuleRepository.PayDuesRepository;
+import com.capstone.kuhako.repositories.ClientModuleRepository.TransactionHistoryRepository;
 import com.capstone.kuhako.repositories.ClientRepository;
+import com.capstone.kuhako.repositories.CollectorRepository;
+import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsHistoryRepository;
+import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
+import com.capstone.kuhako.repositories.ResellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class PayDuesServiceImpl implements PayDuesService{
     @Autowired
     private PayDuesRepository payDuesRepository;
-
+    @Autowired
+    private CollectorRepository collectorRepository;
+    @Autowired
+    private ContractsRepository contractsRepository;
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private ResellerRepository resellerRepository;
+    @Autowired
+    private ContractsHistoryRepository contractsHistoryRepository;
+
+    @Autowired
+    private TransactionHistoryRepository transactionHistoryRepository;
     
-    public void createPayDues(Long clientId,PayDues payDues){
-        Client client = clientRepository.findById(clientId).orElse(null);
-        if (client != null) {
+    public void createPayDues(Long clientId, PayDues payDues, MultipartFile file){
+        try {
+            Client client = clientRepository.findById(clientId).get();
+            Contracts contracts = contractsRepository.findById(payDues.getContracts().getContracts_id()).get();
+            Collector collector = collectorRepository.findById(contracts.getCollector().getCollector_id()).get();
+            Reseller reseller = resellerRepository.findById(contracts.getReseller().getReseller_id()).get();
             payDues.setClient(client);
+            contracts.setDebtRemaining(contracts.getDebtRemaining() - payDues.getItemPrice());
+            contractsRepository.save(contracts);
+
+            if (!file.isEmpty()) {
+                // Get the bytes and content type of the uploaded file
+                byte[] fileData = file.getBytes();
+                String contentType = file.getContentType();
+
+                // Set the transaction proof and content type
+                payDues.setTransactionProof(fileData);
+                payDues.setTransactionProofContentType(contentType);
+            }
             payDuesRepository.save(payDues);
+            if (contracts.getDebtRemaining() == 0) {
+                TransactionHistory transactionHistory = new TransactionHistory(
+                        contracts.getReseller(),
+                        contracts.getClient(),
+                        contracts.getCollector(),
+                        contracts.getItemName(),
+                        contracts.getItemPrice(),
+                        contracts.getPaymentType(),
+                        contracts.getSpecifications(),
+                        new HashSet<>(contracts.getPayDues())
+                );
+                ContractsHistory contractsHistory = new ContractsHistory(
+                        contracts.getReseller(),
+                        contracts.getClient(),
+                        contracts.getCollector(),
+                        contracts.getItemName(),
+                        contracts.getItemPrice(),
+                        contracts.getPaymentType(),
+                        contracts.getSpecifications(),
+                        new HashSet<>(contracts.getTransactions())
+                );
+
+            client.setReseller(null);
+            client.setCollector(null);
+            reseller.getClients().remove(client);
+            collector.getClients().remove(client);
+            client.setContract(null);
+            reseller.getContracts().remove(contracts);
+            collector.getContracts().remove(contracts);
+
+            List<PayDues> payDuesList = payDuesRepository.findByContracts(contracts);
+            for (PayDues payDue : payDuesList) {
+                payDue.setContracts(null);
+                payDuesRepository.save(payDue);
+            }
+                transactionHistoryRepository.save(transactionHistory);
+                contractsHistoryRepository.save(contractsHistory);
+                contractsRepository.delete(contracts);
+            }
+        }catch (IOException e){
+
+            e.printStackTrace();
         }
     }
     public Iterable<PayDues> getPayDues(){

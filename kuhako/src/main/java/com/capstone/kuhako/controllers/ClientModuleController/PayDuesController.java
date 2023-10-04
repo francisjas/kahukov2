@@ -3,12 +3,16 @@ package com.capstone.kuhako.controllers.ClientModuleController;
 
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
+import com.capstone.kuhako.models.JoinModule.Contracts;
 import com.capstone.kuhako.repositories.ClientRepository;
+import com.capstone.kuhako.repositories.CollectorRepository;
+import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
 import com.capstone.kuhako.services.ClientModuleServices.PayDuesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -17,16 +21,33 @@ import org.springframework.web.bind.annotation.*;
 public class PayDuesController {
     @Autowired
     PayDuesService payDuesService;
-
+    @Autowired
+    private CollectorRepository collectorRepository;
+    @Autowired
+    private ContractsRepository contractsRepository;
     @Autowired
     private ClientRepository clientRepository;
 
     @RequestMapping(value="/payDues/{clientId}", method = RequestMethod.POST)
-    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId,@RequestBody PayDues payDues) {
+    public ResponseEntity<Object> createPayDues(@PathVariable Long clientId, @RequestParam("contractId") Long contractId, @RequestParam("itemPrice") double itemPrice,@RequestParam("referenceNumber") String referenceNumber, @RequestParam("paymentType") String paymentType, @RequestParam("file") MultipartFile file) {
         Client client = clientRepository.findById(clientId).orElse(null);
-        if (client != null) {
-            payDuesService.createPayDues(clientId,payDues);
-            return new ResponseEntity<>("Pay Dues created successfully", HttpStatus.CREATED);
+        Contracts contracts = contractsRepository.findById(contractId).orElse(null);
+        if (client != null && contracts != null) {
+            if(contracts.getClient().equals(client)){
+                if(contracts.getDebtRemaining() >= itemPrice){
+                    PayDues payDues = new PayDues();
+                    payDues.setContracts(contracts);
+                    payDues.setItemPrice(itemPrice);
+                    payDues.setReferenceNumber(referenceNumber);
+                    payDues.setPaymentType(paymentType);
+                    payDuesService.createPayDues(clientId,payDues,file);
+                    return new ResponseEntity<>(" Pay Dues created successfully", HttpStatus.CREATED);
+                }else{
+                    return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
+                }
+            }else {
+                return new ResponseEntity<>("Collector is not in charge on this contract", HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<>("Pay Dues Payment Records does not exist", HttpStatus.NOT_FOUND);
         }

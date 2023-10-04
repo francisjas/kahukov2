@@ -1,9 +1,15 @@
 package com.capstone.kuhako.models.ClientModules;
 
 import com.capstone.kuhako.models.Client;
+import com.capstone.kuhako.models.Collector;
+import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.Reseller;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "transactionHistory")
@@ -13,27 +19,58 @@ public class TransactionHistory {
     private Long transactionHistory_id;
 
     @ManyToOne
-    @JoinColumn(name="client_id", nullable = false)
+    @JoinColumn(name="reseller_id")
+    private Reseller reseller;
+
+    @OneToOne
+    @JoinColumn(name = "client_id")
     private Client client;
 
-    @Column
-    private Date transactionDate;
+    @ManyToOne
+    @JoinColumn(name="collector_id")
+    private Collector collector;
 
     @Column
-    private double amountSent;
+    private String itemName;
+    @Column
+    private double itemPrice;
+    @Column
+    private String paymentType;
+    @Column
+    private String specifications;
 
-
-
+    @OneToMany(mappedBy = "transactionHistory", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<PayDues> payDues;
     public TransactionHistory() {
     }
-    public TransactionHistory(Client client, Date transactionDate, double amountSent) {
+
+    public TransactionHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, String paymentType, String specifications, Set<PayDues> payDues) {
+        this.reseller = reseller;
         this.client = client;
-        this.transactionDate = transactionDate;
-        this.amountSent = amountSent;
+        this.collector = collector;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.paymentType = paymentType;
+        this.specifications = specifications;
+        this.payDues = payDues;
+
     }
 
-    public Long getTransactionHistory_id() {
-        return transactionHistory_id;
+    public Set<PayDues> getPayDues() {
+        return payDues;
+    }
+
+    public void setPayDues(Set<PayDues> payDues) {
+        this.payDues = payDues;
+    }
+
+    public Reseller getReseller() {
+        return reseller;
+    }
+
+    public void setReseller(Reseller reseller) {
+        this.reseller = reseller;
     }
 
     public Client getClient() {
@@ -44,19 +81,43 @@ public class TransactionHistory {
         this.client = client;
     }
 
-    public Date getTransactionDate() {
-        return transactionDate;
+    public Collector getCollector() {
+        return collector;
     }
 
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setCollector(Collector collector) {
+        this.collector = collector;
     }
 
-    public double getAmountSent() {
-        return amountSent;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setAmountSent(double amountSent) {
-        this.amountSent = amountSent;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
     }
 }

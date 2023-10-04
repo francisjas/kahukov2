@@ -1,6 +1,9 @@
 package com.capstone.kuhako.models.ClientModules;
 
 import com.capstone.kuhako.models.Client;
+import com.capstone.kuhako.models.Collector;
+import com.capstone.kuhako.models.JoinModule.Contracts;
+import com.capstone.kuhako.models.JoinModule.ContractsHistory;
 
 import javax.persistence.*;
 
@@ -11,16 +14,21 @@ public class PayDues {
     @GeneratedValue
     private Long payDues_id;
 
-    @ManyToOne
-    @JoinColumn(name="client_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name="client", nullable = false)
     private Client client;
 
-   /* @Column
-    private PaymentDues paymentDues;*/
+    @ManyToOne
+    @JoinColumn(name="contracts_id")
+    private Contracts contracts;
 
-    @OneToOne
-    @JoinColumn(name="duePayments", nullable = false)
-    private DuePayments duePayments;
+    @ManyToOne
+    @JoinColumn(name="contractsHistory_id")
+    private ContractsHistory contractsHistory;
+
+    @ManyToOne
+    @JoinColumn(name="transactionHistory_id")
+    private TransactionHistory transactionHistory;
 
     @Column
     private double itemPrice;
@@ -31,22 +39,34 @@ public class PayDues {
     @Column
     private String paymentType;
 
-    @Column
-    private String transactionProof;
+    @Lob
+    @Column(name = "transaction_proof", columnDefinition="LONGBLOB")
+    private byte[] transactionProof;
+
+    @Column(name = "transaction_proof_content_type")
+    private String transactionProofContentType;
 
     public PayDues() {
     }
-    public PayDues(Client client, DuePayments duePayments, double itemPrice, String referenceNumber, String paymentType, String transactionProof) {
+
+    public PayDues(Client client, Contracts contracts, ContractsHistory contractsHistory, TransactionHistory transactionHistory, double itemPrice, String referenceNumber, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.client = client;
-        this.duePayments = duePayments;
+        this.contracts = contracts;
+        this.contractsHistory = contractsHistory;
+        this.transactionHistory = transactionHistory;
         this.itemPrice = itemPrice;
         this.referenceNumber = referenceNumber;
         this.paymentType = paymentType;
         this.transactionProof = transactionProof;
+        this.transactionProofContentType = transactionProofContentType;
     }
 
-    public Long getPayDues_id() {
-        return payDues_id;
+    public TransactionHistory getTransactionHistory() {
+        return transactionHistory;
+    }
+
+    public void setTransactionHistory(TransactionHistory transactionHistory) {
+        this.transactionHistory = transactionHistory;
     }
 
     public Client getClient() {
@@ -57,12 +77,20 @@ public class PayDues {
         this.client = client;
     }
 
-    public DuePayments getDuePayments() {
-        return duePayments;
+    public Contracts getContracts() {
+        return contracts;
     }
 
-    public void setDuePayments(DuePayments duePayments) {
-        this.duePayments = duePayments;
+    public void setContracts(Contracts contracts) {
+        this.contracts = contracts;
+    }
+
+    public ContractsHistory getContractsHistory() {
+        return contractsHistory;
+    }
+
+    public void setContractsHistory(ContractsHistory contractsHistory) {
+        this.contractsHistory = contractsHistory;
     }
 
     public double getItemPrice() {
@@ -89,11 +117,19 @@ public class PayDues {
         this.paymentType = paymentType;
     }
 
-    public String getTransactionProof() {
+    public byte[] getTransactionProof() {
         return transactionProof;
     }
 
-    public void setTransactionProof(String transactionProof) {
+    public void setTransactionProof(byte[] transactionProof) {
         this.transactionProof = transactionProof;
+    }
+
+    public String getTransactionProofContentType() {
+        return transactionProofContentType;
+    }
+
+    public void setTransactionProofContentType(String transactionProofContentType) {
+        this.transactionProofContentType = transactionProofContentType;
     }
 }

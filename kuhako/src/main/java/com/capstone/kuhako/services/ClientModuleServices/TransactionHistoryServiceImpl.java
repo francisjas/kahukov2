@@ -44,8 +44,6 @@ public class TransactionHistoryServiceImpl implements TransactionHistoryService{
     public ResponseEntity updateTransactionHistory(Long clientId,Long id, TransactionHistory transactionHistory){
         TransactionHistory transactionHistoryForUpdate = transactionHistoryRepository.findById(id).orElse(null);
         if (transactionHistoryForUpdate != null && transactionHistoryForUpdate.getClient().getClient_id().equals(clientId)) {
-            transactionHistoryForUpdate.setTransactionDate(transactionHistory.getTransactionDate());
-            transactionHistoryForUpdate.setAmountSent(transactionHistory.getAmountSent());
             transactionHistoryRepository.save(transactionHistoryForUpdate);
             return new ResponseEntity<>("Transaction History Updated successfully", HttpStatus.OK);
         }

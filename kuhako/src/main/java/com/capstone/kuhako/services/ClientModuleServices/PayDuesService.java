@@ -3,9 +3,10 @@ package com.capstone.kuhako.services.ClientModuleServices;
 import com.capstone.kuhako.models.ClientModules.DuePayments;
 import com.capstone.kuhako.models.ClientModules.PayDues;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface PayDuesService {
-    void createPayDues(Long clienId,PayDues payDues);
+    void createPayDues(Long clientId, PayDues payDues, MultipartFile file);
 
     Iterable<PayDues> getPayDues();
 
