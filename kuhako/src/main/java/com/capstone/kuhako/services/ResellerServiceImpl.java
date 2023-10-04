@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +33,9 @@ public class ResellerServiceImpl implements ResellerService {
         return resellerRepository.findAll();
     }
 
+    public List<Collector> getCollectorIdByReseller(Long resellerId ){
+        return collectorRepository.findCollectorsWithContractsByResellerId(resellerId);
+    }
     // Delete reseller
     public ResponseEntity deleteReseller(Long id){
         resellerRepository.deleteById(id);

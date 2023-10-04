@@ -23,9 +23,9 @@ public class Transactions {
     @JoinColumn(name="contractsHistory_id")
     private ContractsHistory contractsHistory;
 
-
     @Column
     private double amountPayments;
+
     @Column
     private String paymentType;
 
@@ -33,18 +33,20 @@ public class Transactions {
     @Column(name = "transaction_proof", columnDefinition="LONGBLOB")
     private byte[] transactionProof;
 
+    @Column(name = "transaction_proof_content_type")
+    private String transactionProofContentType;
+
 
     public Transactions() {
     }
-
-
-    public Transactions(Collector collector, Contracts contracts, ContractsHistory contractsHistory, double amountPayments, String paymentType, byte[] transactionProof) {
+    public Transactions(Collector collector, Contracts contracts, ContractsHistory contractsHistory, double amountPayments, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.collector = collector;
         this.contracts = contracts;
         this.contractsHistory = contractsHistory;
         this.amountPayments = amountPayments;
         this.paymentType = paymentType;
         this.transactionProof = transactionProof;
+        this.transactionProofContentType = transactionProofContentType;
     }
 
     public Long getTransactions_id() {
@@ -71,6 +73,14 @@ public class Transactions {
         this.contracts = contracts;
     }
 
+    public ContractsHistory getContractsHistory() {
+        return contractsHistory;
+    }
+
+    public void setContractsHistory(ContractsHistory contractsHistory) {
+        this.contractsHistory = contractsHistory;
+    }
+
     public double getAmountPayments() {
         return amountPayments;
     }
@@ -95,12 +105,11 @@ public class Transactions {
         this.transactionProof = transactionProof;
     }
 
-
-    public ContractsHistory getContractsHistory() {
-        return contractsHistory;
+    public String getTransactionProofContentType() {
+        return transactionProofContentType;
     }
 
-    public void setContractsHistory(ContractsHistory contractsHistory) {
-        this.contractsHistory = contractsHistory;
+    public void setTransactionProofContentType(String transactionProofContentType) {
+        this.transactionProofContentType = transactionProofContentType;
     }
 }

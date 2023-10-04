@@ -23,14 +23,18 @@ public class TransactionsController {
     @Autowired
     private ContractsRepository contractsRepository;
 
-    @RequestMapping(value="/transactions/{collectorId}", method = RequestMethod.POST)
-    public ResponseEntity<Object> createTransactions(@PathVariable Long collectorId, @RequestBody Transactions transactions) {
+    @PostMapping("/transactions/{collectorId}")
+    public ResponseEntity<Object> createTransactions(@PathVariable Long collectorId, @RequestParam("contractId") Long contractId, @RequestParam("amountPayment") double amountPayment, @RequestParam("paymentType") String paymentType, @RequestParam("file") MultipartFile file) {
         Collector collector = collectorRepository.findById(collectorId).orElse(null);
-        Contracts contracts = contractsRepository.findById(transactions.getContracts().getContracts_id()).orElse(null);
+        Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (collector != null && contracts != null) {
             if (contracts.getCollector().equals(collector)){
-                if (contracts.getDebtRemaining() >= transactions.getAmountPayments()){
-                    transactionsService.createTransactions(collectorId, transactions);
+                if (contracts.getDebtRemaining() >= amountPayment){
+                    Transactions transactions = new Transactions();
+                    transactions.setContracts(contracts);
+                    transactions.setAmountPayments(amountPayment);
+                    transactions.setPaymentType(paymentType);
+                    transactionsService.createTransactions(collectorId, transactions, file);
                     return new ResponseEntity<>("Transactions created successfully", HttpStatus.CREATED);
                 } else {
                     return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
