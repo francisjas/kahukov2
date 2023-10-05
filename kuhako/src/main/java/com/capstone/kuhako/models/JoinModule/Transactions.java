@@ -2,7 +2,10 @@ package com.capstone.kuhako.models.JoinModule;
 
 
 import com.capstone.kuhako.models.Collector;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
@@ -24,6 +27,11 @@ public class Transactions {
     private ContractsHistory contractsHistory;
 
     @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
+    private Date transactionDate;
+    
+    @Column
     private double amountPayments;
 
     @Column
@@ -39,10 +47,12 @@ public class Transactions {
 
     public Transactions() {
     }
-    public Transactions(Collector collector, Contracts contracts, ContractsHistory contractsHistory, double amountPayments, String paymentType, byte[] transactionProof, String transactionProofContentType) {
+
+    public Transactions(Collector collector, Contracts contracts, ContractsHistory contractsHistory, Date transactionDate, double amountPayments, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.collector = collector;
         this.contracts = contracts;
         this.contractsHistory = contractsHistory;
+        this.transactionDate = transactionDate;
         this.amountPayments = amountPayments;
         this.paymentType = paymentType;
         this.transactionProof = transactionProof;
@@ -79,6 +89,14 @@ public class Transactions {
 
     public void setContractsHistory(ContractsHistory contractsHistory) {
         this.contractsHistory = contractsHistory;
+    }
+
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public double getAmountPayments() {

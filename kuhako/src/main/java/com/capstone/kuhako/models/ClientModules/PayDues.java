@@ -3,8 +3,10 @@ package com.capstone.kuhako.models.ClientModules;
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.JoinModule.Contracts;
 import com.capstone.kuhako.models.JoinModule.ContractsHistory;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -26,6 +28,10 @@ public class PayDues {
     @JoinColumn(name="contractsHistory_id")
     private ContractsHistory contractsHistory;
 
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
+    private Date payDate;
 
     @Column
     private double amountPayment;
@@ -45,10 +51,12 @@ public class PayDues {
 
     public PayDues() {
     }
-    public PayDues(Client client, Contracts contracts, ContractsHistory contractsHistory, double amountPayment, String referenceNumber, String paymentType, byte[] transactionProof, String transactionProofContentType) {
+
+    public PayDues(Client client, Contracts contracts, ContractsHistory contractsHistory, Date payDate, double amountPayment, String referenceNumber, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.client = client;
         this.contracts = contracts;
         this.contractsHistory = contractsHistory;
+        this.payDate = payDate;
         this.amountPayment = amountPayment;
         this.referenceNumber = referenceNumber;
         this.paymentType = paymentType;
@@ -86,6 +94,14 @@ public class PayDues {
 
     public void setContractsHistory(ContractsHistory contractsHistory) {
         this.contractsHistory = contractsHistory;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
     }
 
     public double getAmountPayment() {

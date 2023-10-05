@@ -70,6 +70,7 @@ public class TransactionsServiceImpl implements TransactionsService {
                         contracts.getCollector(),
                         contracts.getItemName(),
                         contracts.getItemPrice(),
+                        contracts.getDueDate(),
                         contracts.getPaymentType(),
                         contracts.getSpecifications(),
                         new HashSet<>(contracts.getTransactions()),

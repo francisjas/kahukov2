@@ -23,7 +23,7 @@ public class Client {
     @JoinColumn(name="collector_id")
     private Collector collector;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column

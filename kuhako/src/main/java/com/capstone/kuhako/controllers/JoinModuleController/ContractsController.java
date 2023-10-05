@@ -12,6 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/JoinPage")
@@ -32,10 +38,9 @@ public class ContractsController {
                 if(client.getContract() == null ){
                     contractsService.createContract(resellerId, contracts);
                     return new ResponseEntity<>("Contracts created successfully", HttpStatus.CREATED);
-                }else{
+                 }else {
                     return new ResponseEntity<>("Invalid Contract: Client can only have 1 active contract", HttpStatus.NOT_FOUND);
                 }
-
             } else {
                 return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
             }

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -38,6 +39,7 @@ public class ContractsServiceImpl implements ContractsService {
             reseller.getClients().add(client);
             contracts.setReseller(reseller);
             contracts.setDebtRemaining(contracts.getItemPrice());
+
             contractsRepository.save(contracts);
         }
     }

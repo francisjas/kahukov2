@@ -27,7 +27,7 @@ public class Reseller {
     @JsonIgnore
     private Set<Client> clients;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column

@@ -14,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Base64;
+import java.util.Date;
 
 
 @RestController
@@ -36,19 +39,24 @@ public class PayDuesController {
         Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (client != null && contracts != null) {
             if(contracts.getClient().equals(client)){
-                if(contracts.getDebtRemaining() >= amountPayment){
-                    byte[] data = Base64.getDecoder().decode(base64Data);
-                    PayDues payDues = new PayDues();
-                    payDues.setContracts(contracts);
-                    payDues.setAmountPayment(amountPayment);
-                    payDues.setReferenceNumber(referenceNumber);
-                    payDues.setPaymentType(paymentType);
-                    payDues.setTransactionProof(data);
-                    payDues.setTransactionProofContentType(contentType);
-                    payDuesService.createPayDues(clientId,payDues);
-                    return new ResponseEntity<>("Pay Dues created successfully", HttpStatus.CREATED);
-                }else{
-                    return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
+                Date currentDate = new Date();
+                  if(currentDate.before(contracts.getDueDate())) {
+                    if (contracts.getDebtRemaining() >= amountPayment) {
+                        byte[] data = Base64.getDecoder().decode(base64Data);
+                        PayDues payDues = new PayDues();
+                        payDues.setContracts(contracts);
+                        payDues.setAmountPayment(amountPayment);
+                        payDues.setReferenceNumber(referenceNumber);
+                        payDues.setPaymentType(paymentType);
+                        payDues.setTransactionProof(data);
+                        payDues.setTransactionProofContentType(contentType);
+                        payDuesService.createPayDues(clientId, payDues);
+                        return new ResponseEntity<>("Pay Dues created successfully", HttpStatus.CREATED);
+                    } else {
+                        return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
+                    }
+                }else {
+                     return new ResponseEntity<>("Your contract is now on Dispute, You cannot pay this contract", HttpStatus.NOT_FOUND);
                 }
             }else {
                 return new ResponseEntity<>("Client is not in charge on this contract", HttpStatus.NOT_FOUND);

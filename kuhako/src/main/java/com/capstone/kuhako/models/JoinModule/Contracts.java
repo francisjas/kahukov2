@@ -1,12 +1,17 @@
 package com.capstone.kuhako.models.JoinModule;
 
+
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -32,6 +37,12 @@ public class Contracts {
     private String itemName;
     @Column
     private double itemPrice;
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
+    private Date dueDate;
+
     @Column
     private double debtRemaining;
     @Column
@@ -49,12 +60,14 @@ public class Contracts {
 
     public Contracts() {
     }
-    public Contracts(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, double debtRemaining, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
+
+    public Contracts(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, Date dueDate, double debtRemaining, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
         this.reseller = reseller;
         this.client = client;
         this.collector = collector;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
+        this.dueDate = dueDate;
         this.debtRemaining = debtRemaining;
         this.paymentType = paymentType;
         this.specifications = specifications;
@@ -108,6 +121,13 @@ public class Contracts {
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
     public double getDebtRemaining() {

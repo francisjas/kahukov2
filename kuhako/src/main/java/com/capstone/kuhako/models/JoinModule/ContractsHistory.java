@@ -4,9 +4,11 @@ import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -28,10 +30,18 @@ public class ContractsHistory {
     @JoinColumn(name="collector_id")
     private Collector collector;
 
+
+
     @Column
     private String itemName;
     @Column
     private double itemPrice;
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
+    private Date contractDate;
+
     @Column
     private String paymentType;
     @Column
@@ -48,12 +58,14 @@ public class ContractsHistory {
 
     public ContractsHistory() {
     }
-    public ContractsHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
+
+    public ContractsHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, Date contractDate, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
         this.reseller = reseller;
         this.client = client;
         this.collector = collector;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
+        this.contractDate = contractDate;
         this.paymentType = paymentType;
         this.specifications = specifications;
         this.transactions = transactions;
@@ -98,6 +110,14 @@ public class ContractsHistory {
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public Date getContractDate() {
+        return contractDate;
+    }
+
+    public void setContractDate(Date contractDate) {
+        this.contractDate = contractDate;
     }
 
     public String getPaymentType() {

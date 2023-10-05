@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.util.Base64;
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -31,18 +33,23 @@ public class TransactionsController {
         Contracts contracts = contractsRepository.findById(contractId).orElse(null);
         if (collector != null && contracts != null) {
             if (contracts.getCollector().equals(collector)){
-                if (contracts.getDebtRemaining() >= amountPayment){
-                    byte[] data = Base64.getDecoder().decode(base64Data);
-                    Transactions transactions = new Transactions();
-                    transactions.setContracts(contracts);
-                    transactions.setAmountPayments(amountPayment);
-                    transactions.setPaymentType(paymentType);
-                    transactions.setTransactionProof(data);
-                    transactions.setTransactionProofContentType(contentType);
-                    transactionsService.createTransactions(collectorId, transactions);
-                    return new ResponseEntity<>("Transactions created successfully", HttpStatus.CREATED);
+               Date currentDate = new Date();
+                if(currentDate.before(contracts.getDueDate())){
+                    if (contracts.getDebtRemaining() >= amountPayment){
+                        byte[] data = Base64.getDecoder().decode(base64Data);
+                        Transactions transactions = new Transactions();
+                        transactions.setContracts(contracts);
+                        transactions.setAmountPayments(amountPayment);
+                        transactions.setPaymentType(paymentType);
+                        transactions.setTransactionProof(data);
+                        transactions.setTransactionProofContentType(contentType);
+                        transactionsService.createTransactions(collectorId, transactions);
+                        return new ResponseEntity<>("Transactions created successfully", HttpStatus.CREATED);
+                    }else {
+                        return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
+                    }
                 } else {
-                    return new ResponseEntity<>("Payment exceeds remaining debt", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>("Your contract is now on Dispute, You cannot pay this contract", HttpStatus.NOT_FOUND);
                 }
             } else {
                 return new ResponseEntity<>("Collector is not in charge on this contract", HttpStatus.NOT_FOUND);

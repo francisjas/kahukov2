@@ -74,6 +74,7 @@ public class PayDuesServiceImpl implements PayDuesService{
                         contracts.getCollector(),
                         contracts.getItemName(),
                         contracts.getItemPrice(),
+                        contracts.getDueDate(),
                         contracts.getPaymentType(),
                         contracts.getSpecifications(),
                         new HashSet<>(contracts.getTransactions()),
