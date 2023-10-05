@@ -15,7 +15,7 @@ APPLICATION FLOW (Kuhako)
          + (localhost:8080/JoinPage/contracts/client/{clientId}).
       - One Contract per Client only.
       
-3.a. PAYMENT THROUGH CLIENT (payDues):
+3.a PAYMENT THROUGH CLIENT (payDues):
 
 
         - Client will create payDue and set it to a specific contract.
