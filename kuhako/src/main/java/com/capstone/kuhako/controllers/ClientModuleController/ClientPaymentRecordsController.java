@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/clientPage")
+@RequestMapping("/client")
 public class ClientPaymentRecordsController {
     @Autowired
     ClientPaymentRecordsService clientPaymentRecordsService;

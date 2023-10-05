@@ -17,7 +17,7 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/CollectionPage")
+@RequestMapping("/Collection")
 public class TransactionsController {
     @Autowired
     TransactionsService transactionsService;

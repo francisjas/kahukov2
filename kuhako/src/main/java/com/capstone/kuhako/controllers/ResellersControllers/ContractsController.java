@@ -72,7 +72,6 @@ public class ContractsController {
         return new ResponseEntity<>(contractsService.getContractsHistoriesByClientId(clientId), HttpStatus.OK);
     }
 
-
     @RequestMapping(value="/contracts/transactions/{collectorId}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateContracts(@PathVariable Long collectorId, @RequestBody Transactions transactions) {
         return contractsService.updateContract(collectorId, transactions);

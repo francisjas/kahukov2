@@ -19,7 +19,7 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/clientPage")
+@RequestMapping("/client")
 public class PayDuesController {
     @Autowired
     PayDuesService payDuesService;

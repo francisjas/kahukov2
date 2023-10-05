@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/collectorPage")
+@RequestMapping("/collector")
 public class SendFollowUpController {
     @Autowired
     SendFollowUpService sendFollowUpService;
