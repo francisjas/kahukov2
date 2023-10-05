@@ -15,8 +15,7 @@ APPLICATION FLOW (Kuhako)
          + (localhost:8080/JoinPage/contracts/client/{clientId}).
       - One Contract per Client only.
       
-3.a PAYMENT THROUGH CLIENT (payDues):
-
+ 3.a PAYMENT THROUGH CLIENT (payDues):
 
         - Client will create payDue and set it to a specific contract.
         
@@ -24,10 +23,9 @@ APPLICATION FLOW (Kuhako)
         
         - Once debtRemaining turn to 0, contracts will be deleted and details moved to ContractHistory.
         
-        - Client Can see the transaction (Has Problems, Working on it).
+        - Client Can see the transaction.
 
-3.b PAYMENT THROUGH COLLECTOR (transaction):
-
+ 3.b PAYMENT THROUGH COLLECTOR (transaction):
 
         - Collector will create transaction and set it to a specific contract and client.
         
