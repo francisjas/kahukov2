@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "contractsReseller")
 public class ContractsReseller {
     @Id
-    @GeneratedValue
     private Long id;
 
     @Column
@@ -20,11 +19,21 @@ public class ContractsReseller {
 
     public ContractsReseller() {
     }
-    public ContractsReseller(String username, String itemName, double itemPrice, String paymentType) {
+
+    public ContractsReseller(Long id, String username, String itemName, double itemPrice, String paymentType) {
+        this.id = id;
         this.username = username;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.paymentType = paymentType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

@@ -20,7 +20,6 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/JoinPage")
 public class ContractsController {
     @Autowired
     ContractsService contractsService;
@@ -72,6 +71,11 @@ public class ContractsController {
     @RequestMapping(value="/contracts/client/{clientId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getContractsByClientId(@PathVariable Long clientId) {
         return new ResponseEntity<>(contractsService.getContractsByClientId(clientId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/transactionHistory/costumer/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getContractsHistoriesByClientId(@PathVariable Long clientId) {
+        return new ResponseEntity<>(contractsService.getContractsHistoriesByClientId(clientId), HttpStatus.OK);
     }
 
 

@@ -18,6 +18,8 @@ public interface ContractsService {
 
     Iterable<ContractsClient>getContractsByClientId(Long resellerId);
 
+    Iterable<ContractsClient>getContractsHistoriesByClientId(Long resellerId);
+
     ResponseEntity deleteContract(Long resellerId, Long id);
 
     ResponseEntity updateContract(Long collectorId, Transactions transactions);

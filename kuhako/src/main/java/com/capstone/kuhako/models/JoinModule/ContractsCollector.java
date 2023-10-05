@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "contractsCollector")
 public class ContractsCollector {
     @Id
-    @GeneratedValue
     private Long id;
 
     @Column
@@ -16,9 +15,19 @@ public class ContractsCollector {
 
     public ContractsCollector() {
     }
-    public ContractsCollector(String username, double debtRemaining) {
+
+    public ContractsCollector(Long id, String username, double debtRemaining) {
+        this.id = id;
         this.username = username;
         this.debtRemaining = debtRemaining;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

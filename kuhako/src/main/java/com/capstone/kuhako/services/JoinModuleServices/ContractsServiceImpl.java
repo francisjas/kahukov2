@@ -65,6 +65,10 @@ public class ContractsServiceImpl implements ContractsService {
         return contractsRepository.findContractsByClientId(clientId);
     }
 
+    public Iterable<ContractsClient> getContractsHistoriesByClientId(Long clientId){
+        return contractsRepository.findContractsHistoryByClientId(clientId);
+    }
+
     // delete Contracts
     public ResponseEntity deleteContract(Long resellerId,Long id){
        Contracts contractsToDelete = contractsRepository.findById(id).orElse(null);
