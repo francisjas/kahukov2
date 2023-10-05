@@ -1,9 +1,10 @@
-package com.capstone.kuhako.models.JoinModule;
+package com.capstone.kuhako.models.ResellerModule;
 
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

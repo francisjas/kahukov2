@@ -1,22 +1,16 @@
-package com.capstone.kuhako.controllers.JoinModuleController;
+package com.capstone.kuhako.controllers.ResellersControllers;
 
 import com.capstone.kuhako.models.Client;
-import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import com.capstone.kuhako.models.Reseller;
-import com.capstone.kuhako.models.JoinModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.ResellerRepository;
-import com.capstone.kuhako.services.JoinModuleServices.ContractsService;
+import com.capstone.kuhako.services.ResellerServices.ContractsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 @RestController
 @CrossOrigin

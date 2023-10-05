@@ -3,19 +3,16 @@ package com.capstone.kuhako.controllers.ClientModuleController;
 
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
-import com.capstone.kuhako.models.JoinModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
-import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
+import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
 import com.capstone.kuhako.services.ClientModuleServices.PayDuesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
 

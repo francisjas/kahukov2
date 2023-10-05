@@ -1,20 +1,21 @@
-package com.capstone.kuhako.services.JoinModuleServices;
+package com.capstone.kuhako.services.ResellerServices;
 
 import com.capstone.kuhako.models.Client;
+import com.capstone.kuhako.models.ClientModules.ContractsClient;
 import com.capstone.kuhako.models.Collector;
-import com.capstone.kuhako.models.JoinModule.*;
+import com.capstone.kuhako.models.CollectorModules.ContractsCollector;
 import com.capstone.kuhako.models.Reseller;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.ContractsReseller;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
-import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
+import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
 import com.capstone.kuhako.repositories.ResellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 @Service
 public class ContractsServiceImpl implements ContractsService {

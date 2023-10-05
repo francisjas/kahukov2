@@ -1,4 +1,4 @@
-package com.capstone.kuhako.models.JoinModule;
+package com.capstone.kuhako.models.ClientModules;
 
 import javax.persistence.*;
 

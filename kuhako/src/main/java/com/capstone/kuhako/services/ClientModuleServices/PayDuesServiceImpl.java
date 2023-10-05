@@ -1,29 +1,25 @@
 package com.capstone.kuhako.services.ClientModuleServices;
 
 import com.capstone.kuhako.models.Client;
-import com.capstone.kuhako.models.ClientModules.DuePayments;
 import com.capstone.kuhako.models.ClientModules.PayDues;
-import com.capstone.kuhako.models.ClientModules.TransactionHistory;
 import com.capstone.kuhako.models.Collector;
-import com.capstone.kuhako.models.JoinModule.Contracts;
-import com.capstone.kuhako.models.JoinModule.ContractsHistory;
-import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.repositories.ClientModuleRepository.PayDuesRepository;
 import com.capstone.kuhako.repositories.ClientModuleRepository.TransactionHistoryRepository;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
-import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsHistoryRepository;
-import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
-import com.capstone.kuhako.repositories.JoinModuleRepository.TransactionsRepository;
+import com.capstone.kuhako.repositories.ResellerRepositories.ContractsHistoryRepository;
+import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
+import com.capstone.kuhako.repositories.CollectorModuleRepository.TransactionsRepository;
 import com.capstone.kuhako.repositories.ResellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 

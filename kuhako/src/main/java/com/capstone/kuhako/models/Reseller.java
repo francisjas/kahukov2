@@ -1,7 +1,7 @@
 package com.capstone.kuhako.models;
 
-import com.capstone.kuhako.models.JoinModule.Contracts;
-import com.capstone.kuhako.models.JoinModule.ContractsHistory;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
 import com.capstone.kuhako.models.ResellerModule.SendCollectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

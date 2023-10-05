@@ -2,14 +2,9 @@ package com.capstone.kuhako.models.ClientModules;
 
 import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.Collector;
-import com.capstone.kuhako.models.JoinModule.Transactions;
 import com.capstone.kuhako.models.Reseller;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "transactionHistory")

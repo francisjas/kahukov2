@@ -1,8 +1,7 @@
-package com.capstone.kuhako.services.JoinModuleServices;
+package com.capstone.kuhako.services.CollectorModuleServices;
 
-import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface TransactionsService {
     void createTransactions(Long collectorId, Transactions transactions);

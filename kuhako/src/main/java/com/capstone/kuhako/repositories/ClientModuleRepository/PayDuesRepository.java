@@ -1,10 +1,7 @@
 package com.capstone.kuhako.repositories.ClientModuleRepository;
 
-import com.capstone.kuhako.models.Client;
-import com.capstone.kuhako.models.ClientModules.DuePayments;
 import com.capstone.kuhako.models.ClientModules.PayDues;
-import com.capstone.kuhako.models.JoinModule.Contracts;
-import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

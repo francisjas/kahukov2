@@ -1,6 +1,10 @@
-package com.capstone.kuhako.services.JoinModuleServices;
+package com.capstone.kuhako.services.ResellerServices;
 
-import com.capstone.kuhako.models.JoinModule.*;
+import com.capstone.kuhako.models.ClientModules.ContractsClient;
+import com.capstone.kuhako.models.CollectorModules.ContractsCollector;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.ContractsReseller;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import org.springframework.http.ResponseEntity;
 
 public interface ContractsService {

@@ -1,16 +1,15 @@
-package com.capstone.kuhako.controllers.JoinModuleController;
+package com.capstone.kuhako.controllers.CollectorModuleController;
 
-import com.capstone.kuhako.models.JoinModule.Contracts;
-import com.capstone.kuhako.models.JoinModule.Transactions;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.Transactions;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.repositories.CollectorRepository;
-import com.capstone.kuhako.repositories.JoinModuleRepository.ContractsRepository;
-import com.capstone.kuhako.services.JoinModuleServices.TransactionsService;
+import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
+import com.capstone.kuhako.services.CollectorModuleServices.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Base64;

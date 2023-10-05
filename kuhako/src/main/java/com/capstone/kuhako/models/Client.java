@@ -1,8 +1,8 @@
 package com.capstone.kuhako.models;
 
 import com.capstone.kuhako.models.ClientModules.PayDues;
-import com.capstone.kuhako.models.JoinModule.Contracts;
-import com.capstone.kuhako.models.JoinModule.ContractsHistory;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
