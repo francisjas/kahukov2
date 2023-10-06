@@ -1,7 +1,7 @@
 package com.capstone.kuhako.controllers.ResellersControllers;
 
 import com.capstone.kuhako.models.Client;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.repositories.ClientRepository;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/reseller")
 public class ContractsController {
     @Autowired
     ContractsService contractsService;
@@ -57,23 +58,25 @@ public class ContractsController {
         return new ResponseEntity<>(contractsService.getContractsByCollectorId(collectorId), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/contracts/collector/history/{collectorId}", method = RequestMethod.GET)
+  /*  @RequestMapping(value="/contracts/collector/history/{collectorId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getContractsHistoryByCollectorId(@PathVariable Long collectorId) {
         return new ResponseEntity<>(contractsService.getContractsHistoryByCollectorId(collectorId), HttpStatus.OK);
-    }
+    }*/
 
-    @RequestMapping(value="/contracts/client/{clientId}", method = RequestMethod.GET)
+   /* @RequestMapping(value="/contracts/client/{clientId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getContractsByClientId(@PathVariable Long clientId) {
         return new ResponseEntity<>(contractsService.getContractsByClientId(clientId), HttpStatus.OK);
     }
-
+*/
+/*
     @RequestMapping(value="/transactionHistory/costumer/{clientId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getContractsHistoriesByClientId(@PathVariable Long clientId) {
         return new ResponseEntity<>(contractsService.getContractsHistoriesByClientId(clientId), HttpStatus.OK);
     }
+*/
 
     @RequestMapping(value="/contracts/transactions/{collectorId}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updateContracts(@PathVariable Long collectorId, @RequestBody Transactions transactions) {
-        return contractsService.updateContract(collectorId, transactions);
+    public ResponseEntity<Object> updateContracts(@PathVariable Long collectorId, @RequestBody CollectPayments collectPayments) {
+        return contractsService.updateContract(collectorId, collectPayments);
     }
 }

@@ -26,10 +26,6 @@ public class ResellerController {
         return new ResponseEntity<>(resellerService.getUsername(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/myCollectors/{resellerId}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getCollectorIdByReseller(@PathVariable Long resellerId) {
-        return new ResponseEntity<>(resellerService.getCollectorIdByReseller(resellerId), HttpStatus.OK);
-    }
     // Delete a U
     @RequestMapping (value = "/reseller/{resellerId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteClient(@PathVariable Long resellerId){
@@ -41,8 +37,5 @@ public class ResellerController {
         return resellerService.updateReseller(resellerId, reseller);
     }
 
-    @RequestMapping (value = "/reseller/{resellerId}/assign/{collectorId}/{clientId}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> AssignCollectorToClient(@PathVariable Long resellerId, @PathVariable Long collectorId, @PathVariable Long clientId){
-        return resellerService.assignCollectorToClient(resellerId, collectorId, clientId);
-    }
+
 }

@@ -4,14 +4,14 @@ import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.repositories.ClientModuleRepository.PayDuesRepository;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.ResellerRepositories.ContractsHistoryRepository;
 import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
-import com.capstone.kuhako.repositories.CollectorModuleRepository.TransactionsRepository;
+import com.capstone.kuhako.repositories.CollectorModuleRepository.CollectPaymentRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
 import com.capstone.kuhako.repositories.ResellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
-public class TransactionsServiceImpl implements TransactionsService {
+public class CollectPaymentServiceImpl implements CollectPaymentService {
     @Autowired
-    private TransactionsRepository transactionsRepository;
+    private CollectPaymentRepository collectPaymentRepository;
     @Autowired
     private CollectorRepository collectorRepository;
     @Autowired
@@ -40,16 +40,16 @@ public class TransactionsServiceImpl implements TransactionsService {
     private PayDuesRepository payDuesRepository;
 
     // Create Transactions
-    public void createTransactions(Long collectorId,Transactions transactions){
+    public void createCollectPayment(Long collectorId, CollectPayments collectPayments){
 //        try {
             Collector collector = collectorRepository.findById(collectorId).get();
-            Contracts contracts = contractsRepository.findById(transactions.getContracts().getContracts_id()).get();
+            Contracts contracts = contractsRepository.findById(collectPayments.getContracts().getContracts_id()).get();
             Client client = clientRepository.findById(contracts.getClient().getClient_id()).get();
             Reseller reseller = resellerRepository.findById(contracts.getReseller().getReseller_id()).get();
-            transactions.setCollector(collector);
-            transactions.setContractsHistory(null);
+            collectPayments.setCollector(collector);
+            collectPayments.setContractsHistory(null);
 
-            contracts.setDebtRemaining(contracts.getDebtRemaining() - transactions.getAmountPayments());
+            contracts.setDebtRemaining(contracts.getDebtRemaining() - collectPayments.getAmountPayments());
             contractsRepository.save(contracts);
 //            if (!file.isEmpty()) {
 //                // Get the bytes and content type of the uploaded file
@@ -60,7 +60,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 //                transactions.setTransactionProof(fileData);
 //                transactions.setTransactionProofContentType(contentType);
 //            }
-            transactionsRepository.save(transactions);
+            collectPaymentRepository.save(collectPayments);
             if (contracts.getDebtRemaining() == 0) {
                 ContractsHistory contractsHistory = new ContractsHistory(
                         contracts.getReseller(),
@@ -82,11 +82,11 @@ public class TransactionsServiceImpl implements TransactionsService {
                 client.setContract(null);
                 reseller.getContracts().remove(contracts);
                 collector.getContracts().remove(contracts);
-                List<Transactions> transactionsList = transactionsRepository.findByContracts(contracts);
-                for (Transactions transaction : transactionsList) {
+                List<CollectPayments> collectPaymentsList = collectPaymentRepository.findByContracts(contracts);
+                for (CollectPayments transaction : collectPaymentsList) {
                     transaction.setContractsHistory(contractsHistory);
                     transaction.setContracts(null);
-                    transactionsRepository.save(transaction);
+                    collectPaymentRepository.save(transaction);
                 }
                 List<PayDues> payDuesList = payDuesRepository.findByContracts(contracts);
                 for (PayDues payDue : payDuesList) {
@@ -105,8 +105,8 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 
     // Get all Collector
-    public Iterable<Transactions> getTransactions(){
-        return transactionsRepository.findAll();
+    public Iterable<CollectPayments> getCollectPayment(){
+        return collectPaymentRepository.findAll();
     }
 
 //    public Iterable<Transactions> getTransactionsByCollectorId(Long collectorId){
@@ -116,21 +116,21 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     // delete Collectors
 
-    public ResponseEntity deleteTransactions(Long collectorId, Long id){
-        Transactions transactionsToDelete = transactionsRepository.findById(id).orElse(null);
-        if (transactionsToDelete != null && transactionsToDelete.getCollector().getCollector_id().equals(collectorId)) {
-            transactionsRepository.deleteById(id);
+    public ResponseEntity deleteCollectPayment(Long collectorId, Long id){
+        CollectPayments collectPaymentsToDelete = collectPaymentRepository.findById(id).orElse(null);
+        if (collectPaymentsToDelete != null && collectPaymentsToDelete.getCollector().getCollector_id().equals(collectorId)) {
+            collectPaymentRepository.deleteById(id);
             return new ResponseEntity<>("Transactions Deleted Successfully", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("Transactions Not Found",HttpStatus.NOT_FOUND);
         }
     }
-    public ResponseEntity updateTransactions(Long collectorId, Long id, Transactions transactions){
-        Transactions transactionsForUpdate = transactionsRepository.findById(id).orElse(null);
-        if (transactionsForUpdate != null && transactionsForUpdate.getCollector().getCollector_id().equals(collectorId)){
+    public ResponseEntity updateCollectPayment(Long collectorId, Long id, CollectPayments collectPayments){
+        CollectPayments collectPaymentsForUpdate = collectPaymentRepository.findById(id).orElse(null);
+        if (collectPaymentsForUpdate != null && collectPaymentsForUpdate.getCollector().getCollector_id().equals(collectorId)){
 //            transactionsForUpdate.setCollectionStatus(transactions.getCollectionStatus());
 //            transactionsForUpdate.setRequiredCollectibles(transactions.getRequiredCollectibles());
-            transactionsRepository.save(transactionsForUpdate);
+            collectPaymentRepository.save(collectPaymentsForUpdate);
             return new ResponseEntity("Transactions updated successfully", HttpStatus.OK);
         }
         return new ResponseEntity("Transactions updated successfully", HttpStatus.NOT_FOUND);

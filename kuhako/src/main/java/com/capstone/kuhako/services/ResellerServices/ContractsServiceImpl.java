@@ -7,7 +7,7 @@ import com.capstone.kuhako.models.CollectorModules.ContractsCollector;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.models.ResellerModule.ContractsReseller;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
 import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
@@ -82,7 +82,7 @@ public class ContractsServiceImpl implements ContractsService {
     }
 
     // update Contracts
-    public ResponseEntity updateContract(Long collectorId, Transactions transactions){
+    public ResponseEntity updateContract(Long collectorId, CollectPayments collectPayments){
         Collector collector = collectorRepository.findById(collectorId).orElse(null);
         if(collector != null){
 //            transactions.setCollector(collector);

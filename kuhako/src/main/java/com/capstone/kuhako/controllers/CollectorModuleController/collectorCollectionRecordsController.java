@@ -5,6 +5,7 @@ import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.CollectorModules.collectorCollectionRecords;
 import com.capstone.kuhako.repositories.CollectorRepository;
 import com.capstone.kuhako.services.CollectorModuleServices.collectorCollectionRecordsService;
+import com.capstone.kuhako.services.ResellerServices.ContractsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,34 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/collector")
 public class collectorCollectionRecordsController {
     @Autowired
+    ContractsService contractsService;
+
+    @RequestMapping(value="/collectionRecord/{collectorId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getContractsByCollectorId(@PathVariable Long collectorId) {
+        return new ResponseEntity<>(contractsService.getContractsByCollectorId(collectorId), HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*@Autowired
     collectorCollectionRecordsService collectorCollectionRecordsService;
     @Autowired
     private CollectorRepository collectorRepository;
@@ -49,5 +78,5 @@ public class collectorCollectionRecordsController {
     @RequestMapping(value="/collectorCollectionRecords/{collectorId}/{collectorCollectionRecordsId}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateCollectorCollectionRecords(@PathVariable Long collectorId, @PathVariable Long collectorCollectionRecordsId, @RequestBody collectorCollectionRecords collectorCollectionRecords) {
         return collectorCollectionRecordsService.updateCollectorCollectionRecords(collectorId, collectorCollectionRecordsId, collectorCollectionRecords);
-    }
+    }*/
 }

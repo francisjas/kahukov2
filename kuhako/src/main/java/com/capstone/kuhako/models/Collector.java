@@ -2,7 +2,7 @@ package com.capstone.kuhako.models;
 
 import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -48,7 +48,7 @@ public class Collector {
 
     @OneToMany(mappedBy = "collector")
     @JsonIgnore
-    private Set<Transactions> transactions;
+    private Set<CollectPayments> transactions;
 
  /*   @OneToMany(mappedBy = "collector")
     @JsonIgnore
@@ -57,7 +57,7 @@ public class Collector {
     public Collector() {
     }
 
-    public Collector(Reseller reseller, Set<Client> clients, String username, String password, String fullName, String address, String email, Set<Contracts> contracts, Set<ContractsHistory> contractHistories, Set<Transactions> transactions) {
+    public Collector(Reseller reseller, Set<Client> clients, String username, String password, String fullName, String address, String email, Set<Contracts> contracts, Set<ContractsHistory> contractHistories, Set<CollectPayments> transactions) {
         this.reseller = reseller;
         this.clients = clients;
         this.username = username;
@@ -159,11 +159,11 @@ public class Collector {
         this.contractHistories = contractHistories;
     }
 
-    public Set<Transactions> getTransactions() {
+    public Set<CollectPayments> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(Set<Transactions> transactions) {
+    public void setTransactions(Set<CollectPayments> transactions) {
         this.transactions = transactions;
     }
 }

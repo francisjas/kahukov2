@@ -5,6 +5,7 @@ import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.TransactionHistory;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.services.ClientModuleServices.TransactionHistoryService;
+import com.capstone.kuhako.services.ResellerServices.ContractsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,17 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/client")
 public class TransactionHistoryController {
+
     @Autowired
+    ContractsService contractsService;
+
+    @RequestMapping(value="/transactionHistory/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getContractsHistoriesByClientId(@PathVariable Long clientId) {
+        return new ResponseEntity<>(contractsService.getContractsHistoriesByClientId(clientId), HttpStatus.OK);
+    }
+
+
+    /* @Autowired
     TransactionHistoryService transactionHistoryService;
 
     @Autowired
@@ -50,5 +61,5 @@ public class TransactionHistoryController {
     @RequestMapping(value="/transactionHistory/{clientId}/{transactionHistory_id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateTransactionHistory(@PathVariable Long clientId,@PathVariable Long transactionHistory_id, @RequestBody TransactionHistory transactionHistory) {
         return transactionHistoryService.updateTransactionHistory(clientId,transactionHistory_id, transactionHistory);
-    }
+    }*/
 }

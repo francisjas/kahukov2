@@ -5,7 +5,7 @@ import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.repositories.ClientModuleRepository.PayDuesRepository;
 import com.capstone.kuhako.repositories.ClientModuleRepository.TransactionHistoryRepository;
@@ -13,7 +13,7 @@ import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.repositories.CollectorRepository;
 import com.capstone.kuhako.repositories.ResellerRepositories.ContractsHistoryRepository;
 import com.capstone.kuhako.repositories.ResellerRepositories.ContractsRepository;
-import com.capstone.kuhako.repositories.CollectorModuleRepository.TransactionsRepository;
+import com.capstone.kuhako.repositories.CollectorModuleRepository.CollectPaymentRepository;
 import com.capstone.kuhako.repositories.ResellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,7 @@ public class PayDuesServiceImpl implements PayDuesService{
     @Autowired
     private ContractsHistoryRepository contractsHistoryRepository;
     @Autowired
-    private TransactionsRepository transactionsRepository;
+    private CollectPaymentRepository collectPaymentRepository;
 
     @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
@@ -90,11 +90,11 @@ public class PayDuesServiceImpl implements PayDuesService{
                     payDue.setContracts(null);
                     payDuesRepository.save(payDue);
                 }
-                List<Transactions> transactionsList = transactionsRepository.findByContracts(contracts);
-                for (Transactions transaction : transactionsList) {
+                List<CollectPayments> collectPaymentsList = collectPaymentRepository.findByContracts(contracts);
+                for (CollectPayments transaction : collectPaymentsList) {
                     transaction.setContractsHistory(contractsHistory);
                     transaction.setContracts(null);
-                    transactionsRepository.save(transaction);
+                    collectPaymentRepository.save(transaction);
                 }
                 contractsRepository.delete(contracts);
             }

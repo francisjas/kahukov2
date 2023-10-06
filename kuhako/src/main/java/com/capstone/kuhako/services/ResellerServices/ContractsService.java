@@ -4,7 +4,7 @@ import com.capstone.kuhako.models.ClientModules.ContractsClient;
 import com.capstone.kuhako.models.CollectorModules.ContractsCollector;
 import com.capstone.kuhako.models.ResellerModule.Contracts;
 import com.capstone.kuhako.models.ResellerModule.ContractsReseller;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import org.springframework.http.ResponseEntity;
 
 public interface ContractsService {
@@ -26,5 +26,5 @@ public interface ContractsService {
 
     ResponseEntity deleteContract(Long resellerId, Long id);
 
-    ResponseEntity updateContract(Long collectorId, Transactions transactions);
+    ResponseEntity updateContract(Long collectorId, CollectPayments collectPayments);
 }

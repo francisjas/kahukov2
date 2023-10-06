@@ -5,6 +5,7 @@ import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.ClientPaymentRecords;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.services.ClientModuleServices.ClientPaymentRecordsService;
+import com.capstone.kuhako.services.ClientModuleServices.PayDuesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,20 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/client")
 public class ClientPaymentRecordsController {
+
     @Autowired
+    PayDuesService payDuesService;
+
+    @RequestMapping(value="/costumerPaymentRecordController/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getPayDuesByClientId(@PathVariable Long clientId) {
+        return new ResponseEntity<>(payDuesService.getPayDuesByClientId(clientId), HttpStatus.OK);
+    }
+
+
+
+
+
+    /*@Autowired
     ClientPaymentRecordsService clientPaymentRecordsService;
 
     @Autowired
@@ -41,7 +55,7 @@ public class ClientPaymentRecordsController {
     public ResponseEntity<Object> deleteClientPaymentRecordsByClientId(@PathVariable Long clientId, @PathVariable Long clientPaymentRecords_id ) {
         return clientPaymentRecordsService.deleteClientPaymentRecordsByClientId(clientId,clientPaymentRecords_id);
     }
-
+*/
     /*@RequestMapping(value="/clientPaymentRecords/{clientPaymentRecordsid}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateClientPaymentRecords(@PathVariable Long clientPaymentRecordsid, @RequestBody ClientPaymentRecords clientPaymentRecords) {
         return clientPaymentRecordsService.updateClientPaymentRecords(clientPaymentRecordsid, clientPaymentRecords);

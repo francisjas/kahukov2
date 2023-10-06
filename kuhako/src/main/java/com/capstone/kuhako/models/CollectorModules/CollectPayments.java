@@ -1,12 +1,16 @@
 package com.capstone.kuhako.models.CollectorModules;
 
+
 import com.capstone.kuhako.models.Collector;
+import com.capstone.kuhako.models.ResellerModule.Contracts;
+import com.capstone.kuhako.models.ResellerModule.ContractsHistory;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "collectPayments")
+@Table(name = "transactions")
 public class CollectPayments {
     @Id
     @GeneratedValue
@@ -16,35 +20,54 @@ public class CollectPayments {
     @JoinColumn(name="collector_id", nullable = false)
     private Collector collector;
 
-    @Column
-    private Date collectionDate;
+    @ManyToOne
+    @JoinColumn(name="contracts_id")
+    private Contracts contracts;
+
+    @ManyToOne
+    @JoinColumn(name="contractsHistory_id")
+    private ContractsHistory contractsHistory;
 
     @Column
-    private Double requiredCollectibles;
-
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
+    private Date transactionDate;
+    
     @Column
-    private Double itemCollectible;
+    private double amountPayments;
 
     @Column
     private String paymentType;
 
-    @Column
-    private String transactionProof;
+    @Lob
+    @Column(name = "transaction_proof", columnDefinition="LONGBLOB")
+    private byte[] transactionProof;
+
+    @Column(name = "transaction_proof_content_type")
+    private String transactionProofContentType;
+
 
     public CollectPayments() {
     }
-    public CollectPayments(Collector collector, Date collectionDate, Double requiredCollectibles, Double itemCollectible, String paymentType, String transactionProof) {
+
+    public CollectPayments(Collector collector, Contracts contracts, ContractsHistory contractsHistory, Date transactionDate, double amountPayments, String paymentType, byte[] transactionProof, String transactionProofContentType) {
         this.collector = collector;
-        this.collectionDate = collectionDate;
-        this.requiredCollectibles = requiredCollectibles;
-        this.itemCollectible = itemCollectible;
+        this.contracts = contracts;
+        this.contractsHistory = contractsHistory;
+        this.transactionDate = transactionDate;
+        this.amountPayments = amountPayments;
         this.paymentType = paymentType;
         this.transactionProof = transactionProof;
+        this.transactionProofContentType = transactionProofContentType;
     }
 
     public Long getCollectPayments_id() {
         return collectPayments_id;
     }
+
+//    public void setTransactions_id(Long transactions_id) {
+//        this.transactions_id = transactions_id;
+//    }
 
     public Collector getCollector() {
         return collector;
@@ -54,28 +77,36 @@ public class CollectPayments {
         this.collector = collector;
     }
 
-    public Date getCollectionDate() {
-        return collectionDate;
+    public Contracts getContracts() {
+        return contracts;
     }
 
-    public void setCollectionDate(Date collectionDate) {
-        this.collectionDate = collectionDate;
+    public void setContracts(Contracts contracts) {
+        this.contracts = contracts;
     }
 
-    public Double getRequiredCollectibles() {
-        return requiredCollectibles;
+    public ContractsHistory getContractsHistory() {
+        return contractsHistory;
     }
 
-    public void setRequiredCollectibles(Double requiredCollectibles) {
-        this.requiredCollectibles = requiredCollectibles;
+    public void setContractsHistory(ContractsHistory contractsHistory) {
+        this.contractsHistory = contractsHistory;
     }
 
-    public Double getItemCollectible() {
-        return itemCollectible;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setItemCollectible(Double itemCollectible) {
-        this.itemCollectible = itemCollectible;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public double getAmountPayments() {
+        return amountPayments;
+    }
+
+    public void setAmountPayments(double amountPayments) {
+        this.amountPayments = amountPayments;
     }
 
     public String getPaymentType() {
@@ -86,11 +117,19 @@ public class CollectPayments {
         this.paymentType = paymentType;
     }
 
-    public String getTransactionProof() {
+    public byte[] getTransactionProof() {
         return transactionProof;
     }
 
-    public void setTransactionProof(String transactionProof) {
+    public void setTransactionProof(byte[] transactionProof) {
         this.transactionProof = transactionProof;
+    }
+
+    public String getTransactionProofContentType() {
+        return transactionProofContentType;
+    }
+
+    public void setTransactionProofContentType(String transactionProofContentType) {
+        this.transactionProofContentType = transactionProofContentType;
     }
 }

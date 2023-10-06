@@ -3,6 +3,7 @@ package com.capstone.kuhako.controllers.ResellersControllers;
 import com.capstone.kuhako.models.Reseller;
 import com.capstone.kuhako.models.ResellerModule.MyCollectors;
 import com.capstone.kuhako.repositories.ResellerRepository;
+import com.capstone.kuhako.services.ResellerService;
 import com.capstone.kuhako.services.ResellerServices.MyCollectorsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/reseller")
 public class MyCollectorsController {
     @Autowired
-    MyCollectorsService myCollectorsService;
+    ResellerService resellerService;
 
-    @Autowired
-    private ResellerRepository resellerRepository;
+    @RequestMapping(value="/myCollectors/{resellerId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCollectorIdByReseller(@PathVariable Long resellerId) {
+        return new ResponseEntity<>(resellerService.getCollectorIdByReseller(resellerId), HttpStatus.OK);
+    }
 
-    @RequestMapping(value="/myCollectors/{resellerId}", method = RequestMethod.POST)
+
+    /*@RequestMapping(value="/myCollectors/{resellerId}", method = RequestMethod.POST)
     public ResponseEntity<Object> createMyCollectors(@PathVariable Long resellerId,@RequestBody MyCollectors myCollectors) {
         Reseller reseller = resellerRepository.findById(resellerId).orElse(null);
         if (reseller != null) {
@@ -47,5 +51,7 @@ public class MyCollectorsController {
     @RequestMapping(value="/myCollectors/{resellerId}/{myCollectors_id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateMyCollectors(@PathVariable Long resellerId,@PathVariable Long myCollectors_id, @RequestBody MyCollectors myCollectors) {
         return myCollectorsService.updateMyCollectors(resellerId,myCollectors_id, myCollectors);
-    }
+    }*/
+
+
 }

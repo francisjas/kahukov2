@@ -4,7 +4,7 @@ import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.PayDues;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.Reseller;
-import com.capstone.kuhako.models.ResellerModule.Transactions;
+import com.capstone.kuhako.models.CollectorModules.CollectPayments;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -51,7 +51,7 @@ public class ContractsHistory {
 
     @OneToMany(mappedBy = "contractsHistory", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Transactions> transactions;
+    private Set<CollectPayments> transactions;
 
     @OneToMany(mappedBy = "contractsHistory")
     @JsonIgnore
@@ -60,7 +60,7 @@ public class ContractsHistory {
     public ContractsHistory() {
     }
 
-    public ContractsHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, Date contractDate, String paymentType, String specifications, Set<Transactions> transactions, Set<PayDues> payDues) {
+    public ContractsHistory(Reseller reseller, Client client, Collector collector, String itemName, double itemPrice, Date contractDate, String paymentType, String specifications, Set<CollectPayments> transactions, Set<PayDues> payDues) {
         this.reseller = reseller;
         this.client = client;
         this.collector = collector;
@@ -137,11 +137,11 @@ public class ContractsHistory {
         this.specifications = specifications;
     }
 
-    public Set<Transactions> getTransactions() {
+    public Set<CollectPayments> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(Set<Transactions> transactions) {
+    public void setTransactions(Set<CollectPayments> transactions) {
         this.transactions = transactions;
     }
 

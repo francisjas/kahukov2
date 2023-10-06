@@ -4,6 +4,8 @@ import com.capstone.kuhako.models.Client;
 import com.capstone.kuhako.models.ClientModules.DuePayments;
 import com.capstone.kuhako.repositories.ClientRepository;
 import com.capstone.kuhako.services.ClientModuleServices.DuePaymentsService;
+import com.capstone.kuhako.services.ClientModuleServices.PayDuesService;
+import com.capstone.kuhako.services.ResellerServices.ContractsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,33 @@ import java.util.List;
 public class DuePaymentsController {
 
     @Autowired
+    ContractsService contractsService;
+    @RequestMapping(value="/duePayments/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getContractsByClientId(@PathVariable Long clientId) {
+        return new ResponseEntity<>(contractsService.getContractsByClientId(clientId), HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*  @Autowired
     DuePaymentsService duePaymentsService;
 
     @Autowired
@@ -56,5 +85,5 @@ public class DuePaymentsController {
     @RequestMapping(value="/duePayments/{clientId}/{duePayments_id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateDuePayments(@PathVariable Long clientId, @PathVariable Long duePayments_id, @RequestBody DuePayments duePayments) {
         return duePaymentsService.updateDuePayments(clientId, duePayments_id, duePayments);
-    }
+    }*/
 }
