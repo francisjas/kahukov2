@@ -68,11 +68,7 @@ public class PayDuesController {
         return new ResponseEntity<>(payDuesService.getPayDues(), HttpStatus.OK);
     }
 
-   /* @RequestMapping(value="/payDues/client/{clientId}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getPayDuesByClientId(@PathVariable Long clientId) {
-        return new ResponseEntity<>(payDuesService.getPayDuesByClientId(clientId), HttpStatus.OK);
-    }
-*/
+
     @RequestMapping(value = "/payDues/{clientId}/{payDues_id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deletePayDues(@PathVariable Long clientId,@PathVariable Long payDues_id) {
         return payDuesService.deletePayDues(clientId,payDues_id);

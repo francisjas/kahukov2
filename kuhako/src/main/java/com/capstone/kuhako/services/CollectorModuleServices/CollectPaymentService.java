@@ -8,7 +8,7 @@ public interface CollectPaymentService {
 
     Iterable<CollectPayments> getCollectPayment();
 
-//    Iterable<Transactions>getTransactionsByResellerId(Long collectorId);
+    Iterable<CollectPayments>getCollectPaymentByResellerId(Long collectorId);
 
     ResponseEntity deleteCollectPayment(Long collectorId, Long id);
 

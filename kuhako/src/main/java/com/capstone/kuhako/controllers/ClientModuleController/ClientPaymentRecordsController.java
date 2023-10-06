@@ -20,13 +20,15 @@ public class ClientPaymentRecordsController {
     @Autowired
     PayDuesService payDuesService;
 
+    /*@RequestMapping(value="/costumerPaymentRecordController/{clientId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getPayDuesByClientId(@PathVariable Long clientId) {
+        return new ResponseEntity<>(payDuesService.getPayDuesByClientId(clientId), HttpStatus.OK);
+    }*/
+
     @RequestMapping(value="/costumerPaymentRecordController/{clientId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getPayDuesByClientId(@PathVariable Long clientId) {
         return new ResponseEntity<>(payDuesService.getPayDuesByClientId(clientId), HttpStatus.OK);
     }
-
-
-
 
 
     /*@Autowired

@@ -109,9 +109,9 @@ public class CollectPaymentServiceImpl implements CollectPaymentService {
         return collectPaymentRepository.findAll();
     }
 
-//    public Iterable<Transactions> getTransactionsByCollectorId(Long collectorId){
-//        return transactionsRepository.findTransactionsByCollectorId(collectorId);
-//    }
+    public Iterable<CollectPayments>getCollectPaymentByResellerId(Long collectorId){
+        return collectPaymentRepository.findCollectPaymentsByCollectorId(collectorId);
+    }
 
 
     // delete Collectors

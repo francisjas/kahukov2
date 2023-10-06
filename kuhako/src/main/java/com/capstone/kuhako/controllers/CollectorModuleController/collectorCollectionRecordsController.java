@@ -4,6 +4,7 @@ package com.capstone.kuhako.controllers.CollectorModuleController;
 import com.capstone.kuhako.models.Collector;
 import com.capstone.kuhako.models.CollectorModules.collectorCollectionRecords;
 import com.capstone.kuhako.repositories.CollectorRepository;
+import com.capstone.kuhako.services.CollectorModuleServices.CollectPaymentService;
 import com.capstone.kuhako.services.CollectorModuleServices.collectorCollectionRecordsService;
 import com.capstone.kuhako.services.ResellerServices.ContractsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/collector")
 public class collectorCollectionRecordsController {
+
     @Autowired
-    ContractsService contractsService;
+    CollectPaymentService collectPaymentService;
 
     @RequestMapping(value="/collectionRecord/{collectorId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getContractsByCollectorId(@PathVariable Long collectorId) {
-        return new ResponseEntity<>(contractsService.getContractsByCollectorId(collectorId), HttpStatus.OK);
+        return new ResponseEntity<>(collectPaymentService.getCollectPaymentByResellerId(collectorId), HttpStatus.OK);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /*@Autowired
