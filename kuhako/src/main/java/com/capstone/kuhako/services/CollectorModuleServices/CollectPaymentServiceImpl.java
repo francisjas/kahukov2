@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -48,7 +49,8 @@ public class CollectPaymentServiceImpl implements CollectPaymentService {
             Reseller reseller = resellerRepository.findById(contracts.getReseller().getReseller_id()).get();
             collectPayments.setCollector(collector);
             collectPayments.setContractsHistory(null);
-
+            Date date = new Date();
+            collectPayments.setTransactionDate(date);
             contracts.setDebtRemaining(contracts.getDebtRemaining() - collectPayments.getAmountPayments());
             contractsRepository.save(contracts);
 //            if (!file.isEmpty()) {

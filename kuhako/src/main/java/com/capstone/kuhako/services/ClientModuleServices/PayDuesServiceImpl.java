@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class PayDuesServiceImpl implements PayDuesService{
             payDues.setClient(client);
             contracts.setDebtRemaining(contracts.getDebtRemaining() - payDues.getAmountPayment());
             contractsRepository.save(contracts);
+            Date date = new Date();
+            payDues.setPayDate(date);
 
         /*    if (!file.isEmpty()) {
                 // Get the bytes and content type of the uploaded file
